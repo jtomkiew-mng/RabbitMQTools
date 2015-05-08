@@ -70,16 +70,7 @@ function Move-RabbitMQMessage
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true, Position=4)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -96,7 +87,7 @@ function Move-RabbitMQMessage
     Process
     {
         $s = @{$true=$Count;$false='all'}[$Count -gt 0]
-        if ($pscmdlet.ShouldProcess("server: $ComputerName/$VirtualHost", "Move $s messages from queue $SourceQueueName to queue $DestinationQueueName."))
+        if ($pscmdlet.ShouldProcess("server: $BaseUri/$VirtualHost", "Move $s messages from queue $SourceQueueName to queue $DestinationQueueName."))
         {
             $m = Get-RabbitMQMessage -Credentials $Credentials -VirtualHost $VirtualHost -Name $SourceQueueName
             $c = $m.message_count + 1

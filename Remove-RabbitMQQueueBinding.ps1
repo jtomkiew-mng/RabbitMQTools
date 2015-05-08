@@ -63,16 +63,7 @@ function Remove-RabbitMQQueueBinding
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true, Position=4)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -87,14 +78,14 @@ function Remove-RabbitMQQueueBinding
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("$ComputerName/$VirtualHost", "Remove binding between exchange $ExchangeName and queue $Name"))
+        if ($pscmdlet.ShouldProcess("$BaseUri/$VirtualHost", "Remove binding between exchange $ExchangeName and queue $Name"))
         {
-            $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/bindings/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/e/$([System.Web.HttpUtility]::UrlEncode($ExchangeName))/q/$([System.Web.HttpUtility]::UrlEncode($Name))/$([System.Web.HttpUtility]::UrlEncode($RoutingKey))"
+            $url = Join-Parts $BaseUri "/api/bindings/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/e/$([System.Web.HttpUtility]::UrlEncode($ExchangeName))/q/$([System.Web.HttpUtility]::UrlEncode($Name))/$([System.Web.HttpUtility]::UrlEncode($RoutingKey))"
             Write-Verbose "Invoking REST API: $url"
         
             $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Delete
 
-            Write-Verbose "Removed binding between exchange $ExchangeName and queue $Name $n on $ComputerName/$VirtualHost"
+            Write-Verbose "Removed binding between exchange $ExchangeName and queue $Name $n on $BaseUri/$VirtualHost"
             $cnt++
         }
     }

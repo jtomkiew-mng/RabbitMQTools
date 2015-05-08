@@ -44,16 +44,7 @@ function Clear-RabbitMQQueue
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true, Position=2)]
         [Alias("cn", "HostName")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -66,9 +57,9 @@ function Clear-RabbitMQQueue
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server: $ComputerName/$VirtualHost", "purge queue $Name"))
+        if ($pscmdlet.ShouldProcess("server: $BaseUri/$VirtualHost", "purge queue $Name"))
         {
-            $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/queues/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($Name))/contents"
+            $url = Join-Parts $BaseUri "/api/queues/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($Name))/contents"
             Write-Verbose "Invoking REST API: $url"
 
             $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Delete

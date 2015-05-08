@@ -49,16 +49,7 @@ function Add-RabbitMQUser
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -72,9 +63,9 @@ function Add-RabbitMQUser
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server: $ComputerName", "Add user $Name with tag: $Tag"))
+        if ($pscmdlet.ShouldProcess("server: $BaseUri", "Add user $Name with tag: $Tag"))
         {
-            $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/users/$([System.Web.HttpUtility]::UrlEncode($Name))"
+            $url = Join-Parts $BaseUri "/api/users/$([System.Web.HttpUtility]::UrlEncode($Name))"
             $body = @{
                 'password' = $NewPassword
                 'tags' = $Tag -join ','

@@ -39,16 +39,7 @@ function Remove-RabbitMQUser
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -62,9 +53,9 @@ function Remove-RabbitMQUser
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server: $ComputerName", "Delete user $Name"))
+        if ($pscmdlet.ShouldProcess("server: $BaseUri", "Delete user $Name"))
         {
-            $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/users/$([System.Web.HttpUtility]::UrlEncode($Name))"
+            $url = Join-Parts $BaseUri "/api/users/$([System.Web.HttpUtility]::UrlEncode($Name))"
             $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Delete -ContentType "application/json"
 
             Write-Verbose "Deleted user $User"

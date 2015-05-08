@@ -49,17 +49,8 @@ function Set-RabbitMQUser
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
+        [string]$BaseUri = $defaultComputerName,
         
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
-
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
         [PSCredential]$Credentials
@@ -69,16 +60,16 @@ function Set-RabbitMQUser
     {
         $Credentials = NormaliseCredentials
         
-        $user = Get-RabbitMQUser -Credentials $Credentials -ComputerName $ComputerName -Name $Name
-        if (-not $user) { throw "User $Name doesn't exist in server $ComputerName" }
+        $user = Get-RabbitMQUser -Credentials $Credentials -BaseUri $BaseUri -Name $Name
+        if (-not $user) { throw "User $Name doesn't exist in server $BaseUri" }
         
         $cnt = 0
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server: $ComputerName", $(GetShouldProcessText)))
+        if ($pscmdlet.ShouldProcess("server: $BaseUri", $(GetShouldProcessText)))
         {
-            $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/users/$([System.Web.HttpUtility]::UrlEncode($Name))"
+            $url = Join-Parts $BaseUri "/api/users/$([System.Web.HttpUtility]::UrlEncode($Name))"
             $body = @{}
 
             if ($NewPassword) { $body.Add("password", $NewPassword) }

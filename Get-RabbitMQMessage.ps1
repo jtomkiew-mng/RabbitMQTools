@@ -52,7 +52,7 @@ function Get-RabbitMQMessage
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
+        [string]$BaseUri = $defaultComputerName,
 
 
         # Number of messages to get. Default value is 1.
@@ -75,15 +75,6 @@ function Get-RabbitMQMessage
         # Indicates what view should be used to present the data.
         [ValidateSet("Default", "Payload", "Details")]
         [string]$View = "Default",
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -102,7 +93,7 @@ function Get-RabbitMQMessage
             # figure out the Virtual Host value
             $p = @{}
             $p.Add("Credentials", $Credentials)
-            if ($ComputerName) { $p.Add("ComputerName", $ComputerName) }
+            if ($BaseUri) { $p.Add("BaseUri", $BaseUri) }
             
             $queues = Get-RabbitMQQueue @p | ? Name -eq $Name
 
@@ -121,9 +112,9 @@ function Get-RabbitMQMessage
 
         [string]$s = ""
         if ([bool]$Remove) { $s = "Messages will be removed from the queue." } else {$s = "Messages will be requeued."}
-        if ($pscmdlet.ShouldProcess("server: $ComputerName/$VirtualHost", "Get $Count message(s) from queue $Name. $s"))
+        if ($pscmdlet.ShouldProcess("server: $BaseUri/$VirtualHost", "Get $Count message(s) from queue $Name. $s"))
         {
-            $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/queues/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($Name))/get"
+            $url = Join-Parts $BaseUri "/api/queues/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($Name))/get"
             Write-Verbose "Invoking REST API: $url"
 
             $body = @{
@@ -145,7 +136,7 @@ function Get-RabbitMQMessage
             {
                 $cnt++
                 $item | Add-Member -NotePropertyName "no" -NotePropertyValue $cnt
-                $item | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $ComputerName
+                $item | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
                 $item | Add-Member -NotePropertyName "VirtualHost" -NotePropertyValue $VirtualHost
             }
 
@@ -170,7 +161,7 @@ function Get-RabbitMQMessage
     }
     End
     {
-        Write-Verbose "`r`nGot $cnt messages from queue $Name, vhost $VirtualHost, server: $ComputerName."
+        Write-Verbose "`r`nGot $cnt messages from queue $Name, vhost $VirtualHost, server: $BaseUri."
     }
 }
 

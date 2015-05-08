@@ -3,8 +3,9 @@
     [CmdletBinding(DefaultParameterSetName='login')]
     Param
     (
-        [parameter(Mandatory=$true, ParameterSetName='login', Position = 0)]
-        [string]$cn,
+        [parameter(Mandatory=$true, Position = 0)]
+        [alias("ComputerName", "cn")]
+        [string]$BaseUri,
 
         [parameter(Mandatory=$true, ParameterSetName='login', Position = 1)]
         [string]$userName,
@@ -14,10 +15,6 @@
 
         [parameter(Mandatory=$true, ParameterSetName='login', Position = 3)]
         [string]$fn,
-
-
-        [parameter(Mandatory=$true, ParameterSetName='cred', Position = 0)]
-        [string]$computerName,
 
         [parameter(Mandatory=$true, ParameterSetName='cred', Position = 1)]
         [PSCredential]$cred,
@@ -33,12 +30,11 @@
     
     if ($PsCmdlet.ParameterSetName -eq "login") 
     { 
-        $computerName = $cn
         $cred = GetRabbitMqCredentials $userName $password 
         $function = $fn
     }
                 
-    $url = "http://$([System.Web.HttpUtility]::UrlEncode($computerName)):$port/api/$function"
+    $url = Join-Parts $BaseUri "/api/$function"
     Write-Verbose "Invoking REST API: $url"
     
     return Invoke-RestMethod $url -Credential $cred -DisableKeepAlive -AllowEscapedDotsAndSlashes

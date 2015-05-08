@@ -74,16 +74,7 @@ function Get-RabbitMQExchange
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -96,14 +87,14 @@ function Get-RabbitMQExchange
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server $ComputerName", "Get exchange(s): $(NamesToString $Name '(all)')"))
+        if ($pscmdlet.ShouldProcess("server $BaseUri", "Get exchange(s): $(NamesToString $Name '(all)')"))
         {
-            $exchanges = GetItemsFromRabbitMQApi -ComputerName $ComputerName $Credentials "exchanges"
+            $exchanges = GetItemsFromRabbitMQApi -BaseUri $BaseUri $Credentials "exchanges"
             
             $result = ApplyFilter $exchanges 'vhost' $VirtualHost
             $result = ApplyFilter $result 'name' $Name
 
-            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $ComputerName
+            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
 
             SendItemsToOutput $result "RabbitMQ.Exchange"
         }

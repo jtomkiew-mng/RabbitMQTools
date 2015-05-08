@@ -22,7 +22,7 @@ function Register-RabbitMQServer
     (
         # Name of the RabbitMQ server to be registered.
         [Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
-        $ComputerName,
+        $BaseUri,
 
         # Description to be used in tooltip. If not provided then computer name will be used.
         [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=1)]
@@ -38,14 +38,14 @@ function Register-RabbitMQServer
     }
     Process
     {
-        $obj += $global:RabbitMQServers | ? ListItemText -eq $ComputerName
+        $obj += $global:RabbitMQServers | ? ListItemText -eq $BaseUri
         if (-not $obj)
         {
-            if (-not $Description) { $Description = $ComputerName }
-            $escapedComputerName = $ComputerName -replace '\[', '``[' -replace '\]', '``]'
-            $global:RabbitMQServers += New-Object System.Management.Automation.CompletionResult $escapedComputerName, $ComputerName, 'ParameterValue', $Description
+            if (-not $Description) { $Description = $BaseUri }
+            $escapedComputerName = $BaseUri -replace '\[', '``[' -replace '\]', '``]'
+            $global:RabbitMQServers += New-Object System.Management.Automation.CompletionResult $escapedComputerName, $BaseUri, 'ParameterValue', $Description
         } else {
-            Write-Warning "Server $ComputerName is already registered. If you want to update the entry you need to unregister the server and register it again"
+            Write-Warning "Server $BaseUri is already registered. If you want to update the entry you need to unregister the server and register it again"
         }
     }
     End

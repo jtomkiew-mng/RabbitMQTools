@@ -56,16 +56,7 @@ function Set-RabbitMQPermission
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -76,16 +67,16 @@ function Set-RabbitMQPermission
     {
         $Credentials = NormaliseCredentials
         
-        $p = Get-RabbitMQPermission -ComputerName $ComputerName -Credentials $Credentials -VirtualHost $VirtualHost -User $User
+        $p = Get-RabbitMQPermission -BaseUri $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -User $User
         if (-not $p) { throw "Permissions to virtual host $VirtualHost for user $User do not exist. To create permissions use Add-RabbitMQPermission cmdlet." }
         
         $cnt = 0
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server: $ComputerName", "Changes permission to virtual host $VirtualHost for user $User : $Configure, $Read $Write"))
+        if ($pscmdlet.ShouldProcess("server: $BaseUri", "Changes permission to virtual host $VirtualHost for user $User : $Configure, $Read $Write"))
         {
-            $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/permissions/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($User))"
+            $url = Join-Parts $BaseUri "/api/permissions/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($User))"
             $body = @{
                 'configure' = $Configure
                 'read' = $Read

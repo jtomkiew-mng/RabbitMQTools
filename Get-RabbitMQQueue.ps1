@@ -70,7 +70,7 @@ function Get-RabbitMQQueue
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
+        [string]$BaseUri = $defaultComputerName,
 
         # Name of the virtual host to filter channels by.
         [parameter(ValueFromPipelineByPropertyName=$true)]
@@ -84,15 +84,6 @@ function Get-RabbitMQQueue
         # When set then displays queue statistics.
         [switch]$ShowStats,
 
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
-
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
         [PSCredential]$Credentials
@@ -104,9 +95,9 @@ function Get-RabbitMQQueue
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server $ComputerName", "Get queues(s): $(NamesToString $Name '(all)')"))
+        if ($pscmdlet.ShouldProcess("server $BaseUri", "Get queues(s): $(NamesToString $Name '(all)')"))
         {
-            $result = GetItemsFromRabbitMQApi -ComputerName $ComputerName $Credentials "queues"
+            $result = GetItemsFromRabbitMQApi -BaseUri $BaseUri $Credentials "queues"
             
             $result = ApplyFilter $result 'name' $Name
             if ($VirtualHost) { $result = ApplyFilter $result 'vhost' $VirtualHost }
@@ -122,7 +113,7 @@ function Get-RabbitMQQueue
                 $result = $result | ? messages -ne 0 
             }
 
-            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $ComputerName
+            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
 
             if ($ShowStats)
             {

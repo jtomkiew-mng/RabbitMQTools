@@ -63,16 +63,7 @@ function Get-RabbitMQPermission
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -85,16 +76,16 @@ function Get-RabbitMQPermission
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server $ComputerName", "Get permission(s) for VirtualHost = $(NamesToString $VirtualHost '(all)') and User = $(NamesToString $User '(all)')"))
+        if ($pscmdlet.ShouldProcess("server $BaseUri", "Get permission(s) for VirtualHost = $(NamesToString $VirtualHost '(all)') and User = $(NamesToString $User '(all)')"))
         {
-            $result = GetItemsFromRabbitMQApi -ComputerName $ComputerName $Credentials "permissions"
+            $result = GetItemsFromRabbitMQApi -BaseUri $BaseUri $Credentials "permissions"
             $result = ApplyFilter $result "vhost" $VirtualHost
             $result = ApplyFilter $result "user" $User
 
 
             foreach($i in $result)
             {
-                $i | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $ComputerName
+                $i | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
             }
 
             SendItemsToOutput $result "RabbitMQ.Permission"

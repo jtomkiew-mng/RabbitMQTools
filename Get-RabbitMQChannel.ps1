@@ -60,21 +60,12 @@ function Get-RabbitMQChannel
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
+        [string]$BaseURI = $defaultComputerName,
 
         # Name of the virtual host to filter channels by.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("vh", "vhost")]
         [string]$VirtualHost,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -87,14 +78,14 @@ function Get-RabbitMQChannel
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server $ComputerName", "Get node(s): $(NamesToString $Name '(all)')"))
+        if ($pscmdlet.ShouldProcess("server $BaseURI", "Get node(s): $(NamesToString $Name '(all)')"))
         {
-            $result = GetItemsFromRabbitMQApi -ComputerName $ComputerName $Credentials "channels"
+            $result = GetItemsFromRabbitMQApi -BaseUri $BaseURI $Credentials "channels"
             
             $result = ApplyFilter $result 'name' $Name
             if ($VirtualHost) { $result = ApplyFilter $result 'vhost' $VirtualHost }
 
-            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $ComputerName
+            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseURI
 
             SendItemsToOutput $result "RabbitMQ.Channel"
         }

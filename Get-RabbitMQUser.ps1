@@ -57,18 +57,10 @@ function Get-RabbitMQUser
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true)]
         [Alias("cn", "HostName")]
-        [string]$ComputerName = $defaultComputerName,
+        [string]$BaseUri = $defaultComputerName,
         
         [ValidateSet("Default", "Flat")]
         [string]$View,
-
-        # UserName to use when logging to RabbitMq server. Default value is guest.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server. Default value is guest.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
 
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
         [PSCredential]$Credentials
@@ -80,11 +72,11 @@ function Get-RabbitMQUser
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server $ComputerName", "Get user(s)"))
+        if ($pscmdlet.ShouldProcess("server $BaseUri", "Get user(s)"))
         {
-            $result = GetItemsFromRabbitMQApi -ComputerName $ComputerName $Credentials "users"
+            $result = GetItemsFromRabbitMQApi -BaseUri $BaseUri $Credentials "users"
             $result = ApplyFilter $result 'name' $Name
-            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $ComputerName
+            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
  
             if (-not $View) { SendItemsToOutput $result "RabbitMQ.User" }
             else { SendItemsToOutput $result "RabbitMQ.User" | ft -View $View }

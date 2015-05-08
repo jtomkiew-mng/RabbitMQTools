@@ -66,16 +66,7 @@ function Remove-RabbitMQVirtualHost
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true, Position=1)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -89,10 +80,10 @@ function Remove-RabbitMQVirtualHost
     }
     Process
     {
-        if (-not $pscmdlet.ShouldProcess("server: $ComputerName", "Remove vhost(s): $(NamesToString $Name '(all)')")) {
+        if (-not $pscmdlet.ShouldProcess("server: $BaseUri", "Remove vhost(s): $(NamesToString $Name '(all)')")) {
             foreach ($qn in $Name)
             { 
-                Write "Deleting Virtual Host(s) $qn (server=$ComputerName)" 
+                Write "Deleting Virtual Host(s) $qn (server=$BaseUri)" 
                 $cnt++
             }
             return
@@ -100,10 +91,10 @@ function Remove-RabbitMQVirtualHost
 
         foreach($n in $Name)
         {
-            $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/vhosts/$([System.Web.HttpUtility]::UrlEncode($n))"
+            $url = Join-Parts $BaseUri "/api/vhosts/$([System.Web.HttpUtility]::UrlEncode($n))"
             $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Delete -ContentType "application/json"
 
-            Write-Verbose "Removed Virtual Host $n on server $ComputerName"
+            Write-Verbose "Removed Virtual Host $n on server $BaseUri"
             $cnt++
         }
     }

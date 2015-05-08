@@ -64,16 +64,7 @@ function Remove-RabbitMQConnection
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -87,10 +78,10 @@ function Remove-RabbitMQConnection
     }
     Process
     {
-        if (-not $pscmdlet.ShouldProcess("server: $ComputerName", "Close connection(s): $(NamesToString $Name '(all)')")) {
+        if (-not $pscmdlet.ShouldProcess("server: $BaseUri", "Close connection(s): $(NamesToString $Name '(all)')")) {
             foreach ($qn in $Name)
             { 
-                Write "Closing connection $qn to server=$ComputerName"
+                Write "Closing connection $qn to server=$BaseUri"
                 $cnt++
             }
             return
@@ -98,10 +89,10 @@ function Remove-RabbitMQConnection
 
         foreach($n in $Name)
         {
-            $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/connections/$([System.Web.HttpUtility]::UrlEncode($n))"
+            $url = Join-Parts $BaseUri "/api/connections/$([System.Web.HttpUtility]::UrlEncode($n))"
             $result = Invoke-RestMethod $url -Credential $Credentials -DisableKeepAlive -ErrorAction Continue -Method Delete
 
-            Write-Verbose "Closed connection $n to server $ComputerName"
+            Write-Verbose "Closed connection $n to server $BaseUri"
             $cnt++
         }
     }

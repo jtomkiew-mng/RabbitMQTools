@@ -54,16 +54,7 @@ function Get-RabbitMQQueueBinding
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true, Position=2)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -81,7 +72,7 @@ function Get-RabbitMQQueueBinding
             # figure out the Virtual Host value
             $p = @{}
             $p.Add("Credentials", $Credentials)
-            if ($ComputerName) { $p.Add("ComputerName", $ComputerName) }
+            if ($BaseUri) { $p.Add("BaseUri", $BaseUri) }
             
             $queues = Get-RabbitMQQueue @p | ? Name -eq $Name
 
@@ -97,13 +88,13 @@ function Get-RabbitMQQueueBinding
             }
         }
 
-        if ($pscmdlet.ShouldProcess("server $ComputerName", "Get bindings for queue(s): $(NamesToString $Name '(all)')"))
+        if ($pscmdlet.ShouldProcess("server $BaseUri", "Get bindings for queue(s): $(NamesToString $Name '(all)')"))
         {
             foreach ($n in $Name)
             {
-                $result = GetItemsFromRabbitMQApi -ComputerName $ComputerName $Credentials "queues/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($n))/bindings"
+                $result = GetItemsFromRabbitMQApi -BaseUri $BaseUri $Credentials "queues/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($n))/bindings"
 
-                $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $ComputerName
+                $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
 
                 SendItemsToOutput $result "RabbitMQ.QueueBinding"
             }

@@ -71,16 +71,7 @@ function Remove-RabbitMQExchange
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -94,15 +85,15 @@ function Remove-RabbitMQExchange
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("server: $ComputerName, vhost: $VirtualHost", "Remove exchange(s): $(NamesToString $Name '(all)')"))
+        if ($pscmdlet.ShouldProcess("server: $BaseUri, vhost: $VirtualHost", "Remove exchange(s): $(NamesToString $Name '(all)')"))
         {
             foreach($n in $Name)
             {
-                $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/exchanges/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($n))"
+                $url = Join-Parts $BaseUri "/api/exchanges/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($n))"
         
                 $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Delete
 
-                Write-Verbose "Deleted Exchange $n on server $ComputerName, Virtual Host $VirtualHost"
+                Write-Verbose "Deleted Exchange $n on server $BaseUri, Virtual Host $VirtualHost"
                 $cnt++
             }
         }

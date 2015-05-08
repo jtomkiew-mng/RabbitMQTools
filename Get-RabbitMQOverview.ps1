@@ -41,16 +41,7 @@ function Get-RabbitMQOverview
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
         [Alias("cn", "HostName", "ComputerName")]
-        [string[]]$Name = $defaultComputerName,
-        
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
+        [string[]]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
@@ -63,18 +54,18 @@ function Get-RabbitMQOverview
     }
     Process
     {
-        if (-not $pscmdlet.ShouldProcess("server $ComputerName", "Get overview: $(NamesToString $Name '(all)')"))
+        if (-not $pscmdlet.ShouldProcess("server $BaseUri", "Get overview: $(NamesToString $Name '(all)')"))
         {
-            foreach ($cn in $Name)
+            foreach ($cn in $BaseUri)
             {
                 Write-Host "Getting overview for server: $cn"
             }
             return;
         }
 
-        foreach ($cn in $Name)
+        foreach ($cn in $BaseUri)
         {
-            $overview = GetItemsFromRabbitMQApi -ComputerName $cn $Credentials "overview"
+            $overview = GetItemsFromRabbitMQApi -BaseUri $cn $Credentials "overview"
             $overview | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $cn
             $overview.PSObject.TypeNames.Insert(0, "RabbitMQ.ServerOverview")
 

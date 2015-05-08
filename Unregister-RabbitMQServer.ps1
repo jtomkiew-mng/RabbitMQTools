@@ -17,7 +17,7 @@ function Unregister-RabbitMQServer
     (
         # Name of the RabbitMQ server to be unregistered.
         [Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
-        $ComputerName
+        $BaseUri
     )
 
     Begin
@@ -29,11 +29,11 @@ function Unregister-RabbitMQServer
     }
     Process
     {
-        $obj += $global:RabbitMQServers | ? ListItemText -eq $ComputerName
+        $obj += $global:RabbitMQServers | ? ListItemText -eq $BaseUri
 
         if ($obj)
         {
-            $global:RabbitMQServers = $global:RabbitMQServers | ? ListItemText -ne $ComputerName
+            $global:RabbitMQServers = $global:RabbitMQServers | ? ListItemText -ne $BaseUri
         }
     }
     End

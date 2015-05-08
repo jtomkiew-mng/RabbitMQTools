@@ -54,17 +54,8 @@ function Add-RabbitMQQueueBinding
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true, Position=4)]
         [Alias("HostName", "hn", "cn")]
-        [string]$ComputerName = $defaultComputerName,
+        [string]$BaseUri = $defaultComputerName,
         
-        
-        # UserName to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$UserName,
-
-        # Password to use when logging to RabbitMq server.
-        [Parameter(Mandatory=$true, ParameterSetName='login')]
-        [string]$Password,
-
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$true, ParameterSetName='cred')]
         [PSCredential]$Credentials
@@ -77,11 +68,11 @@ function Add-RabbitMQQueueBinding
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("$ComputerName/$VirtualHost", "Add queue binding from exchange $ExchangeName to queue $Name with routing key $RoutingKey"))
+        if ($pscmdlet.ShouldProcess("$BaseUri/$VirtualHost", "Add queue binding from exchange $ExchangeName to queue $Name with routing key $RoutingKey"))
         {
             foreach($n in $Name)
             {
-                $url = "http://$([System.Web.HttpUtility]::UrlEncode($ComputerName)):15672/api/bindings/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/e/$([System.Web.HttpUtility]::UrlEncode($ExchangeName))/q/$([System.Web.HttpUtility]::UrlEncode($Name))"
+                $url = Join-Parts $BaseUri "/api/bindings/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/e/$([System.Web.HttpUtility]::UrlEncode($ExchangeName))/q/$([System.Web.HttpUtility]::UrlEncode($Name))"
                 Write-Verbose "Invoking REST API: $url"
 
                 $body = @{
@@ -91,7 +82,7 @@ function Add-RabbitMQQueueBinding
                 $bodyJson = $body | ConvertTo-Json
                 $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Post -ContentType "application/json" -Body $bodyJson
 
-                Write-Verbose "Bound exchange $ExchangeName to queue $Name $n on $ComputerName/$VirtualHost"
+                Write-Verbose "Bound exchange $ExchangeName to queue $Name $n on $BaseUri/$VirtualHost"
                 $cnt++
             }
         }
