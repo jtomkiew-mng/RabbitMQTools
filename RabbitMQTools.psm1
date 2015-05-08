@@ -1,18 +1,4 @@
-﻿#if (Test-Path Function:TabExpansion2) {
-#    $OldTabExpansion = Get-Content Function:TabExpansion2
-#}
-#
-#$Module = $MyInvocation.MyCommand.ScriptBlock.Module 
-#$Module.OnRemove = {
-#
-#    #$Function:TabExpansion2 = $OldTabExpansion
-#
-#    Remove-Variable -name 'UnEscapeDotsAndSlashes' -Force
-#    Remove-Variable -name 'defaultUriParserFlagsValue' -Force
-#    Remove-Variable -name 'uriUnEscapesDotsAndSlashes' -Force
-#}
-
-#Get public and private function definition files.
+﻿#Get public and private function definition files.
     $Public  = Get-ChildItem $PSScriptRoot\*.ps1 -ErrorAction SilentlyContinue 
     $Private = Get-ChildItem $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue 
 
@@ -28,9 +14,6 @@
             Write-Error "Failed to import function $($import.fullname)"
         }
     }
-
-
-Register-RabbitMQServer 'localhost' -WarningAction SilentlyContinue
 
 # Aliases
 New-Alias -Name grvh -value Get-RabbitMQVirtualHost -Description "Gets RabbitMQ's Virutal Hosts"
