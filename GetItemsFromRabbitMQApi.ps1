@@ -23,7 +23,9 @@
         [PSCredential]$cred,
         
         [parameter(Mandatory=$true, ParameterSetName='cred', Position = 2)]
-        [string]$function
+        [string]$function,
+
+        [int]$Port = 15672
     )
 
     Add-Type -AssemblyName System.Web
@@ -36,7 +38,7 @@
         $function = $fn
     }
                 
-    $url = "http://$([System.Web.HttpUtility]::UrlEncode($computerName)):15672/api/$function"
+    $url = "http://$([System.Web.HttpUtility]::UrlEncode($computerName)):$port/api/$function"
     Write-Verbose "Invoking REST API: $url"
     
     return Invoke-RestMethod $url -Credential $cred -DisableKeepAlive -AllowEscapedDotsAndSlashes
