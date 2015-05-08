@@ -6,14 +6,14 @@ Describe -Tags "Example" "Get-RabbitMQOverview" {
 
     It "should get server overview" {
 
-        $actual = Get-RabbitMQOverview -ComputerName $server | select -ExpandProperty ComputerName
+        $actual = Get-RabbitMQOverview -BaseUri $server | select -ExpandProperty ComputerName
 
         $actual | Should Be $server
     }
 
     It "should get overview for several servers" {
 
-        $actual = Get-RabbitMQOverview -ComputerName $server, $server | select -ExpandProperty ComputerName
+        $actual = Get-RabbitMQOverview -BaseUri $server, $server | select -ExpandProperty ComputerName
 
         $actual | Should Be $server
     }

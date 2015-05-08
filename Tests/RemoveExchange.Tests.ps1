@@ -5,10 +5,10 @@
 Describe -Tags "Example" "Remove-RabbitMQExchange" {
     It "should remove existing Exchange" {
 
-        Add-RabbitMQExchange -ComputerName $server "e1" -Type direct
-        Remove-RabbitMQExchange -ComputerName $server "e1" -Confirm:$false
+        Add-RabbitMQExchange -BaseUri $server "e1" -Type direct
+        Remove-RabbitMQExchange -BaseUri $server "e1" -Confirm:$false
         
-        $actual = Get-RabbitMQExchange -ComputerName $server e1 | select -ExpandProperty name 
+        $actual = Get-RabbitMQExchange -BaseUri $server e1 | select -ExpandProperty name 
         
         $actual | Should Be $()
     }
