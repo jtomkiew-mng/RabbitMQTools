@@ -12,6 +12,23 @@
 #    Remove-Variable -name 'uriUnEscapesDotsAndSlashes' -Force
 #}
 
+#Get public and private function definition files.
+    $Public  = Get-ChildItem $PSScriptRoot\*.ps1 -ErrorAction SilentlyContinue 
+    $Private = Get-ChildItem $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue 
+
+#Dot source the files
+    Foreach($import in @($Public + $Private))
+    {
+        Try
+        {
+            . $import.fullname
+        }
+        Catch
+        {
+            Write-Error "Failed to import function $($import.fullname)"
+        }
+    }
+
 
 Register-RabbitMQServer 'localhost' -WarningAction SilentlyContinue
 
@@ -36,23 +53,5 @@ New-Alias -Name addqueuebinding -value Add-RabbitMQQueueBinding -Description "Ad
 
 New-Alias -Name getmessage -value Get-RabbitMQMessage -Description "Gets messages from RabbitMQ queue"
 
-Export-ModuleMember -Alias * 
-
 # Modules
-Export-ModuleMember -Function Get-RabbitMQVirtualHost, Add-RabbitMQVirtualHost, Remove-RabbitMQVirtualHost
-Export-ModuleMember -Function Get-RabbitMQOverview
-Export-ModuleMember -Function Get-RabbitMQExchange, Add-RabbitMQExchange, Remove-RabbitMQExchange
-
-Export-ModuleMember -Function Get-RabbitMQConnection, Remove-RabbitMQConnection
-Export-ModuleMember -Function Get-RabbitMQNode
-Export-ModuleMember -Function Get-RabbitMQChannel
-
-Export-ModuleMember -Function Get-RabbitMQQueue, Add-RabbitMQQueue, Remove-RabbitMQQueue, Get-RabbitMQQueueBinding, Add-RabbitMQQueueBinding, Remove-RabbitMQQueueBinding
-
-Export-ModuleMember -Function Get-RabbitMQMessage, Add-RabbitMQMessage, Copy-RabbitMQMessage, Move-RabbitMQMessage, Clear-RabbitMQQueue
-
-Export-ModuleMember -Function Register-RabbitMQServer, Unregister-RabbitMQServer
-
-Export-ModuleMember -Function Get-RabbitMQUser, Add-RabbitMQUser, Remove-RabbitMQUser, Set-RabbitMQUser
-
-Export-ModuleMember -Function Get-RabbitMQPermission, Add-RabbitMQPermission, Set-RabbitMQPermission, Remove-RabbitMQPermission
+Export-ModuleMember -Function $($Public | Select -ExpandProperty BaseName) -Alias *
