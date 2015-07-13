@@ -35,5 +35,9 @@ function AssertAreEqual($actual, $expected) {
                 throw "Expected element at position $i to be {$e} but was {$a}" 
             }
         }
-    }
+    } else {
+		if($actual -ne $expected) {
+			throw "Expected $actual to be $expected"
+		}
+	}
 }
