@@ -32,7 +32,7 @@ function Clear-RabbitMQQueue
     Param
     (
         # Name of RabbitMQ Virtual Host.
-        [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
+        [parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=0)]
         [Alias("vh", "vhost")]
         [string]$VirtualHost = $defaultVirtualHost,
 

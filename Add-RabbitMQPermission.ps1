@@ -33,9 +33,9 @@ function Add-RabbitMQPermission
     Param
     (
         # Virtual host to set permission for.
-        [parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
+        [parameter(Mandatory=$false, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
         [Alias("vhost", "vh")]
-        [string]$VirtualHost,
+        [string]$VirtualHost = $defaultVirtualhost,
 
         # Name of user to set permission for.
         [parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Position=1)]
