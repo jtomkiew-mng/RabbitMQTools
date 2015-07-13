@@ -1,6 +1,6 @@
 ﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\TestSetup.ps1"
-. "$here\..\AddQueue.ps1"
+. "$here\..\Add-RabbitMQQueue.ps1"
 
 function TearDownTest() {
     
@@ -13,9 +13,9 @@ Describe -Tags "Example" "Add-RabbitMQQueue" {
 
     It "should create new Queue" {
     
-        Add-RabbitMQQueue -BaseUri $server -VirtualHost test q1
+        Add-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1
         
-        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test q1 | select -ExpandProperty name 
+        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1 | select -ExpandProperty name 
         
         $actual | Should Be "q1"
     
@@ -24,9 +24,9 @@ Describe -Tags "Example" "Add-RabbitMQQueue" {
 
     It "should create Durable new Queue" {
     
-        Add-RabbitMQQueue -BaseUri $server -VirtualHost test q1 -Durable
+        Add-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1 -Durable
         
-        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test q1 | select -ExpandProperty durable
+        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1 | select -ExpandProperty durable
         
         $actual | Should Be $true
     
@@ -35,9 +35,9 @@ Describe -Tags "Example" "Add-RabbitMQQueue" {
 
     It "should create AutoDelete new Queue" {
     
-        Add-RabbitMQQueue -BaseUri $server -VirtualHost test q1 -AutoDelete
+        Add-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1 -AutoDelete
         
-        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test q1 | select -ExpandProperty auto_delete
+        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1 | select -ExpandProperty auto_delete
         
         $actual | Should Be $true
     
@@ -46,12 +46,12 @@ Describe -Tags "Example" "Add-RabbitMQQueue" {
 
     It "should create Durable, AutoDelete new Queue" {
     
-        Add-RabbitMQQueue -BaseUri $server -VirtualHost test q1 -Durable -AutoDelete
+        Add-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1 -Durable -AutoDelete
 
-        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test q1 | select -ExpandProperty durable
+        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1 | select -ExpandProperty durable
         $actual | Should Be $true
         
-        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test q1 | select -ExpandProperty auto_delete
+        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1 | select -ExpandProperty auto_delete
         $actual | Should Be $true
     
         TearDownTest
@@ -62,7 +62,7 @@ Describe -Tags "Example" "Add-RabbitMQQueue" {
         Add-RabbitMQQueue -BaseUri $server -VirtualHost test q1
         Add-RabbitMQQueue -BaseUri $server -VirtualHost test q1
     
-        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test q1 | select -ExpandProperty name 
+        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test -Name q1 | select -ExpandProperty name 
         $actual | Should Be "q1"
     
         TearDownTest
@@ -72,7 +72,7 @@ Describe -Tags "Example" "Add-RabbitMQQueue" {
     
         Add-RabbitMQQueue -BaseUri $server -VirtualHost test q1,q2,q3
     
-        $actual = Get-RabbitMQQueue -BaseUri $server "q*" | select -ExpandProperty name 
+        $actual = Get-RabbitMQQueue -BaseUri $server -Name "q*" | select -ExpandProperty name 
     
         $expected = $("q1", "q2", "q3")
         AssertAreEqual $actual $expected

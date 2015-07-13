@@ -1,6 +1,6 @@
 ﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\TestSetup.ps1"
-. "$here\..\GetExchange.ps1"
+. "$here\..\Get-RabbitMQExchange.ps1"
 
 
 Describe -Tags "Example" "Get-RabbitMQExchange" {
@@ -14,7 +14,7 @@ Describe -Tags "Example" "Get-RabbitMQExchange" {
 
     It "should get Exchanges filtered by name" {
     
-        $actual = Get-RabbitMQExchange -BaseUri $server "amq.*" | select -ExpandProperty name | Sort-Object | Get-Unique 
+        $actual = Get-RabbitMQExchange -BaseUri $server -Name "amq.*" | select -ExpandProperty name | Sort-Object | Get-Unique 
     
         $expected = $(
             "amq.direct",

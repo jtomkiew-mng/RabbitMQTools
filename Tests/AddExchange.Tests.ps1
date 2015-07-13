@@ -1,10 +1,10 @@
 ﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\TestSetup.ps1"
-. "$here\..\AddExchange.ps1"
+. "$here\..\Add-RabbitMQExchange.ps1"
 
 function TearDownTest() {
     
-    $exchanges = Get-RabbitMQExchange -BaseUri $server e1, e2
+    $exchanges = Get-RabbitMQExchange -BaseUri $server -Name e1, e2
 
     ($exchanges) | Remove-RabbitMQExchange -BaseUri $server -ErrorAction Continue -Confirm:$false
 }
@@ -14,7 +14,7 @@ Describe -Tags "Example" "Add-RabbitMQExchange" {
     
         Add-RabbitMQExchange -BaseUri $server -Type direct e1
         
-        $actual = Get-RabbitMQExchange -BaseUri $server e1 | select -ExpandProperty name 
+        $actual = Get-RabbitMQExchange -BaseUri $server -Name e1 | select -ExpandProperty name 
         
         $actual | Should Be "e1"
     
@@ -23,10 +23,10 @@ Describe -Tags "Example" "Add-RabbitMQExchange" {
     
     It "should do nothing when Exchange already exists" {
     
-        Add-RabbitMQExchange -BaseUri $server -Type direct "e1"
-        Add-RabbitMQExchange -BaseUri $server -Type direct "e1"
+        Add-RabbitMQExchange -BaseUri $server -Type direct -Name "e1"
+        Add-RabbitMQExchange -BaseUri $server -Type direct -Name "e1"
     
-        $actual = Get-RabbitMQExchange -BaseUri $server "e1" | select -ExpandProperty name 
+        $actual = Get-RabbitMQExchange -BaseUri $server -Name "e1" | select -ExpandProperty name 
         
         $actual | Should Be "e1"
     
@@ -35,9 +35,9 @@ Describe -Tags "Example" "Add-RabbitMQExchange" {
     
     It "should create many Exchanges" {
     
-        Add-RabbitMQExchange -BaseUri $server -Type direct e1,e2
+        Add-RabbitMQExchange -BaseUri $server -Type direct -Name e1,e2
     
-        $actual = Get-RabbitMQExchange -BaseUri $server e1,e2 | select -ExpandProperty name 
+        $actual = Get-RabbitMQExchange -BaseUri $server -Name e1,e2 | select -ExpandProperty name 
     
         $expected = $("e1", "e2")
     

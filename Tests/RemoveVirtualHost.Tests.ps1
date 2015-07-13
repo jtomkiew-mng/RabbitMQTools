@@ -1,6 +1,6 @@
 ﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\TestSetup.ps1"
-. "$here\..\RemoveVirtualHost.ps1"
+. "$here\..\Remove-RabbitMQVirtualHost.ps1"
 
 Describe -Tags "Example" "Remove-RabbitMQVirtualHost" {
     It "should remove existing Virtual Host" {
