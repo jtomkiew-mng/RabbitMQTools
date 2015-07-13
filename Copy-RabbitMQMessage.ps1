@@ -52,9 +52,9 @@ function Copy-RabbitMQMessage
     Param
     (
         # Name of the virtual host to filter channels by.
-        [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
+        [parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=0)]
         [Alias("vh", "vhost")]
-        [string]$VirtualHost,
+        [string]$VirtualHost = $defaultVirtualhost,
 
         # Name of RabbitMQ Queue from which messages should be copied.
         [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=1)]

@@ -32,7 +32,7 @@ function Add-RabbitMQQueueBinding
     Param
     (
         # Name of the virtual host.
-        [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
+        [parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=0)]
         [Alias("vh", "vhost")]
         [string]$VirtualHost = $defaultVirtualhost,
 

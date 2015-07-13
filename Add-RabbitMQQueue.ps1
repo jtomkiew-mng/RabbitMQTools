@@ -62,9 +62,9 @@ function Add-RabbitMQQueue
         [string[]]$Name,
 
         # Name of the virtual host to filter channels by.
-        [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true)]
+        [parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true)]
         [Alias("vh", "vhost")]
-        [string]$VirtualHost,
+        [string]$VirtualHost = $defaultVirtualhost,
 
         # Determines whether the queue should be durable.
         [parameter(ValueFromPipelineByPropertyName=$true)]

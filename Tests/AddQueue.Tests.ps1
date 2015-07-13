@@ -2,7 +2,7 @@
 . "$here\TestSetup.ps1"
 . "$here\..\Add-RabbitMQQueue.ps1"
 
-function TearDownTest() {
+function TearDownTest($VirtualHost = "test") {
     
     $queues = Get-RabbitMQQueue -BaseUri $server -VirtualHost test
 
@@ -21,6 +21,16 @@ Describe -Tags "Example" "Add-RabbitMQQueue" {
     
         TearDownTest
     }
+	
+	It "should create a new Queue on the default VirtualHost" {
+        Add-RabbitMQQueue -BaseUri $server -Name q1
+        
+        $actual = Get-RabbitMQQueue -BaseUri $server -Name q1 | select -ExpandProperty name 
+        
+        $actual | Should Be "q1"
+    
+        TearDownTest -VirtualHost "/"
+	}
 
     It "should create Durable new Queue" {
     
@@ -72,7 +82,7 @@ Describe -Tags "Example" "Add-RabbitMQQueue" {
     
         Add-RabbitMQQueue -BaseUri $server -VirtualHost test q1,q2,q3
     
-        $actual = Get-RabbitMQQueue -BaseUri $server -Name "q*" | select -ExpandProperty name 
+        $actual = Get-RabbitMQQueue -BaseUri $server -VirtualHost test -Name "q*" | select -ExpandProperty name 
     
         $expected = $("q1", "q2", "q3")
         AssertAreEqual $actual $expected
