@@ -23,7 +23,7 @@ function AssertAreEqual($actual, $expected) {
         { 
             $al = $actual.Length
             $el = $expected.Length
-            throw "Expected $al elements but were $el"
+            throw "Expected $el elements but were $al"
         }
 
         for ($i = 0; $i -lt $actual.Length; $i++)
