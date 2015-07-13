@@ -1,13 +1,17 @@
 ﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 #$server = "192.168.232.129"
-$server = "localhost"
+$server = "http://localhost:15672"
 
-. "$here\..\GetRabbitMQCredentials.ps1"
-. "$here\..\Constants.ps1"
-. "$here\..\Invoke_RestMethodProxy.ps1"
-. "$here\..\NamesToString.ps1"
-. "$here\..\PreventUnEscapeDotsAndSlashesOnUri.ps1"
-. "$here\..\SendItemsToOutput.ps1"
+. "$here\..\Private\GetRabbitMQCredentials.ps1"
+. "$here\..\Private\Constants.ps1"
+. "$here\..\ScriptsToProcess\Invoke_RestMethodProxy.ps1"
+. "$here\..\Private\NamesToString.ps1"
+. "$here\..\ScriptsToProcess\PreventUnEscapeDotsAndSlashesOnUri.ps1"
+. "$here\..\Private\SendItemsToOutput.ps1"
+. "$here\..\NormaliseCredentials.ps1"
+. "$here\..\Private\Join-Parts.ps1"
+. "$here\..\Private\GetItemsFromRabbitMQApi.ps1"
+. "$here\..\Private\ApplyFilter.ps1"
 
 
 function AssertAreEqual($actual, $expected) {
