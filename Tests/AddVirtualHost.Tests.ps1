@@ -1,10 +1,10 @@
 ﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\TestSetup.ps1"
-. "$here\..\AddVirtualHost.ps1"
+. "$here\..\Add-RabbitMQVirtualHost.ps1"
 
 function TearDownTest() {
     
-    $vhosts = Get-RabbitMQVirtualHost -BaseUri $server vh3, vh4
+    $vhosts = Get-RabbitMQVirtualHost -BaseUri $server -Name vh3, vh4
 
     ($vhosts) | Remove-RabbitMQVirtualHost -BaseUri $server -ErrorAction Continue -Confirm:$false
 }
@@ -12,9 +12,9 @@ function TearDownTest() {
 Describe -Tags "Example" "Add-RabbitMQVirtualHost" {
     It "should create new Virtual Host" {
     
-        Add-RabbitMQVirtualHost -BaseUri $server "vh3"
+        Add-RabbitMQVirtualHost -BaseUri $server -Name "vh3"
         
-        $actual = Get-RabbitMQVirtualHost -BaseUri $server "vh3" | select -ExpandProperty name 
+        $actual = Get-RabbitMQVirtualHost -BaseUri $server -Name "vh3" | select -ExpandProperty name 
         
         $actual | Should Be "vh3"
     
