@@ -55,7 +55,7 @@
 #>
 function Add-RabbitMQVirtualHost
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact="Low")]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact="Low")]
     Param
     (
         # Name of RabbitMQ Virtual Host.
@@ -69,13 +69,12 @@ function Add-RabbitMQVirtualHost
         [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
+        [Parameter(Mandatory=$false)]
         [PSCredential]$Credentials
     )
 
     Begin
     {
-        $Credentials = NormaliseCredentials
         $cnt = 0
     }
     Process

@@ -47,7 +47,7 @@
 #>
 function Get-RabbitMQUser
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, PositionalBinding=$false)]
+    [CmdletBinding(SupportsShouldProcess=$true, PositionalBinding=$false)]
     Param
     (
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
@@ -62,13 +62,12 @@ function Get-RabbitMQUser
         [ValidateSet("Default", "Flat")]
         [string]$View,
 
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
     {
-        $Credentials = NormaliseCredentials
     }
     Process
     {

@@ -30,7 +30,7 @@
 #>
 function Set-RabbitMQUser
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact="Medium")]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact="Medium")]
     Param
     (
         # Name of user to update.
@@ -52,14 +52,12 @@ function Set-RabbitMQUser
         [string]$BaseUri = $defaultComputerName,
         
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
-    {
-        $Credentials = NormaliseCredentials
-        
+    {       
         $user = Get-RabbitMQUser -Credentials $Credentials -BaseUri $BaseUri -Name $Name
         if (-not $user) { throw "User $Name doesn't exist in server $BaseUri" }
         

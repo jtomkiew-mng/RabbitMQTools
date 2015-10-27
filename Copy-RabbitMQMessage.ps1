@@ -48,7 +48,7 @@
 #>
 function Copy-RabbitMQMessage
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact='High')]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact='High')]
     Param
     (
         # Name of the virtual host to filter channels by.
@@ -76,13 +76,12 @@ function Copy-RabbitMQMessage
         [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
     {
-        $Credentials = NormaliseCredentials
         $cnt = 0
         $requiresMessageRemoval = $SourceQueueName -ne $DestinationQueueName
     }

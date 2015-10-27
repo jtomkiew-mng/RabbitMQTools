@@ -29,7 +29,7 @@
 #>
 function Set-RabbitMQPermission
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact="Medium")]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact="Medium")]
     Param
     (
         # Virtual host to set permission for.
@@ -59,14 +59,12 @@ function Set-RabbitMQPermission
         [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
-    {
-        $Credentials = NormaliseCredentials
-        
+    {        
         $p = Get-RabbitMQPermission -BaseUri $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -User $User
         if (-not $p) { throw "Permissions to virtual host $VirtualHost for user $User do not exist. To create permissions use Add-RabbitMQPermission cmdlet." }
         

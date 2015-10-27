@@ -30,7 +30,7 @@
 #>
 function Add-RabbitMQUser
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact="Low")]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact="Low")]
     Param
     (
         # Name of user to create.
@@ -52,13 +52,12 @@ function Add-RabbitMQUser
         [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
     {
-        $Credentials = NormaliseCredentials
         $cnt = 0
     }
     Process
