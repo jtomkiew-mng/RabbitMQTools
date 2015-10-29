@@ -35,7 +35,7 @@
 #>
 function Get-RabbitMQOverview
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact='None')]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact='None')]
     Param
     (
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
@@ -44,13 +44,12 @@ function Get-RabbitMQOverview
         [string[]]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
     {
-        $Credentials = NormaliseCredentials
     }
     Process
     {

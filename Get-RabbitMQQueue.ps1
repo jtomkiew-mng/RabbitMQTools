@@ -59,7 +59,7 @@
 #>
 function Get-RabbitMQQueue
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact='None')]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact='None')]
     Param
     (
         # Name of RabbitMQ queue.
@@ -85,13 +85,12 @@ function Get-RabbitMQQueue
         [switch]$ShowStats,
 
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
     {
-        $Credentials = NormaliseCredentials
     }
     Process
     {

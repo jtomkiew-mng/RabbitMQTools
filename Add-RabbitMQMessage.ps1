@@ -36,7 +36,7 @@
 #>
 function Add-RabbitMQMessage
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact='None')]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact='None')]
     Param
     (
         # Name of the virtual host to filter channels by.
@@ -68,14 +68,12 @@ function Add-RabbitMQMessage
         [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
     {
-        $Credentials = NormaliseCredentials
-
         if ($Properties -eq $null) { $Properties = @{} }
     }
     Process

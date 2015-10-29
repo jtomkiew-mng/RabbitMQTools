@@ -55,7 +55,7 @@
 #>
 function Remove-RabbitMQQueue
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact="High")]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact="High")]
     Param
     (
         # Name of RabbitMQ Queue.
@@ -74,13 +74,12 @@ function Remove-RabbitMQQueue
         [string]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
     {
-        $Credentials = NormaliseCredentials
         $cnt = 0
     }
     Process

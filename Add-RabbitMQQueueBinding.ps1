@@ -28,7 +28,7 @@
 #>
 function Add-RabbitMQQueueBinding
 {
-    [CmdletBinding(DefaultParameterSetName='defaultLogin', SupportsShouldProcess=$true, ConfirmImpact="Low")]
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact="Low")]
     Param
     (
         # Name of the virtual host.
@@ -57,13 +57,12 @@ function Add-RabbitMQQueueBinding
         [string]$BaseUri = $defaultComputerName,
         
         # Credentials to use when logging to RabbitMQ server.
-        [Parameter(Mandatory=$true, ParameterSetName='cred')]
-        [PSCredential]$Credentials
+        [Parameter(Mandatory=$false)]
+        [PSCredential]$Credentials = $defaultCredentials 
     )
 
     Begin
     {
-        $Credentials = NormaliseCredentials
         $cnt = 0
     }
     Process
