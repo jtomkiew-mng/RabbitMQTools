@@ -12,14 +12,19 @@
    To support requests using default virtual host (/), the cmdlet will temporarily disable UnEscapeDotsAndSlashes flag on UriParser. For more information check get-help about_UnEsapingDotsAndSlashes.
 
 .EXAMPLE
-   Add-RabbitMQQueueBinding vh1 e1 q1 'e1-q1'
+   Add-RabbitMQQueueBinding -VirtualHost vh1 -ExchangeName e1 -Name q1 -RoutingKey 'e1-q1'
 
    This command binds exchange "e1" with queue "q1" using routing key "e1-q1". The operation is performed on local server in virtual host vh1.
 
 .EXAMPLE
-   Add-RabbitMQQueueBinding '/' e1 q1 'e1-q1' 127.0.01
+   Add-RabbitMQQueueBinding -VirtualHost '/' -ExchangeName e1 -Name q1 -RoutingKey 'e1-q1' -BaseUri 127.0.0.1
 
    This command binds exchange "e1" with queue "q1" using routing key "e1-q1". The operation is performed on server 127.0.0.1 in default virtual host (/).
+
+.EXAMPLE
+   Add-RabbitMQQueueBinding -VirtualHost '/' -ExchangeName e1 -Name q1 -Headers @{FirstHeaderKey='FirstHeaderValue'; SecondHeaderKey='SecondHeaderValue'} -BaseUri 127.0.0.1
+
+   This command binds exchange "e1" with queue "q1" using the headers argument @{FirstHeaderKey='FirstHeaderValue'; SecondHeaderKey='SecondHeaderValue'}. The operation is performed on server 127.0.0.1 in default virtual host (/).
 
 .INPUTS
 
@@ -28,7 +33,7 @@
 #>
 function Add-RabbitMQQueueBinding
 {
-    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact="Low")]
+    [CmdletBinding(DefaultParameterSetName='RoutingKey', SupportsShouldProcess=$true, ConfirmImpact="Low")]
     Param
     (
         # Name of the virtual host.
@@ -47,9 +52,13 @@ function Add-RabbitMQQueueBinding
         [string]$Name,
 
         # Routing key.
-        [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=3)]
+        [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=3, ParameterSetName='RoutingKey')]
         [Alias("rk")]
         [string]$RoutingKey,
+
+        # Headers hashtable
+        [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=3, ParameterSetName='Headers')]
+        [Hashtable]$Headers = @{},
 
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true, Position=4)]
@@ -67,7 +76,7 @@ function Add-RabbitMQQueueBinding
     }
     Process
     {
-        if ($pscmdlet.ShouldProcess("$BaseUri/$VirtualHost", "Add queue binding from exchange $ExchangeName to queue $Name with routing key $RoutingKey"))
+        if ($pscmdlet.ShouldProcess("$BaseUri/$VirtualHost", "Add queue binding from exchange $ExchangeName to queue $Name with $($PSCmdlet.ParameterSetName)"))
         {
             foreach($n in $Name)
             {
@@ -76,9 +85,10 @@ function Add-RabbitMQQueueBinding
 
                 $body = @{
                     "routing_key" = $RoutingKey
+		            "arguments" = $headers
                 }
 
-                $bodyJson = $body | ConvertTo-Json
+                $bodyJson = $body | ConvertTo-Json -Depth 3 -Compress
                 $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Post -ContentType "application/json" -Body $bodyJson
 
                 Write-Verbose "Bound exchange $ExchangeName to queue $Name $n on $BaseUri/$VirtualHost"
