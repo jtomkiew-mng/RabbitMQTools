@@ -45,6 +45,11 @@
 
    Above example shows how to pipe queue definitions to Add-RabbitMQQueue cmdlet.
 
+.EXAMPLE
+   Add-RabbitMQQueue -Name 'queue-with-ttl' -Arguments @{'x-message-ttl' = 60000}
+
+   This command will create a new queue and set message TTL to 60 seconds.
+
 .INPUTS
    You can pipe VirtualHost names and optionally ComputerNames to this cmdlet.
 
@@ -82,6 +87,10 @@ function Add-RabbitMQQueue
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$false)]
         [PSCredential]$Credentials = $defaultCredentials
+
+        # Optional arguments
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true)]
+        [hashtable]$Arguments
     )
 
     Begin
@@ -100,6 +109,7 @@ function Add-RabbitMQQueue
                 $body = @{}
                 if ($Durable) { $body.Add("durable", $true) }
                 if ($AutoDelete) { $body.Add("auto_delete", $true) }
+                if ($Arguments -ne $null -and $Arguments.Count -gt 0) { $body.Add("arguments", $Arguments) }
 
                 $bodyJson = $body | ConvertTo-Json
                 $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Put -ContentType "application/json" -Body $bodyJson
