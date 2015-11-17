@@ -65,7 +65,7 @@ function Add-RabbitMQPermission
 
     Begin
     {      
-        $p = Get-RabbitMQPermission -ComputerName $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -User $User
+        $p = Get-RabbitMQPermission -BaseUri $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -User $User
         if ($p) { throw "Permissions to virtual host $VirtualHost for user $User already exist. To change permissions use Set-RabbitMQPermission cmdlet." }
         
         $cnt = 0
