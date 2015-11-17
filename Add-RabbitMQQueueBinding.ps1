@@ -52,7 +52,7 @@ function Add-RabbitMQQueueBinding
         [string]$Name,
 
         # Routing key.
-        [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=3, ParameterSetName='RoutingKey')]
+        [parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=3, ParameterSetName='RoutingKey')]
         [Alias("rk")]
         [string]$RoutingKey,
 
