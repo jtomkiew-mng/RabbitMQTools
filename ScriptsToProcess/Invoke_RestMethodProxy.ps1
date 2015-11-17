@@ -95,19 +95,18 @@
             # remove additional proxy parameter to prevent original function from failing
             if($PSBoundParameters['AllowEscapedDotsAndSlashes']) { $null = $PSBoundParameters.Remove('AllowEscapedDotsAndSlashes') }
 
-            Write-Host $PSBoundParameters
+            
+            #By default the content-length is -1, which prevents ['Body'] from setting the content length.
             if($PSBoundParameters['Body']) {
-                $enc = [system.Text.Encoding]::UTF8
-                $PSBoundParameters['Body'] = $enc.GetBytes([string]$PSBoundParameters['Body'])
-                Write-Host $PSBoundParameters['Body'].GetType()
-
-                
                 if ($PSBoundParameters['Headers']) {
-                    $PSBoundParameters['Headers']['content-length'] = $test.Count
+                    $PSBoundParameters['Headers']['content-length'] = 0
                 } else {
-                    $PSBoundParameters['Headers'] = @{ 'content-length' = $test.Count }
+                    $PSBoundParameters['Headers'] = @{ 'content-length' = 0 }
                 }
             }
+            
+            #It seems that sometimes errors occur if you don't yield a short time.
+            Start-Sleep -Milliseconds 1
 
             $scriptCmd = {& $wrappedCmd @PSBoundParameters }
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
