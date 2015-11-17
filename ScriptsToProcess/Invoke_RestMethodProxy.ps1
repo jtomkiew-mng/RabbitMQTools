@@ -106,7 +106,7 @@
             }
             
             #It seems that sometimes errors occur if you don't yield a short time.
-            Start-Sleep -Milliseconds 1
+            Start-Sleep -Milliseconds 100
 
             $scriptCmd = {& $wrappedCmd @PSBoundParameters }
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
