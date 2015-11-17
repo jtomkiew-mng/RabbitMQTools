@@ -95,6 +95,20 @@
             # remove additional proxy parameter to prevent original function from failing
             if($PSBoundParameters['AllowEscapedDotsAndSlashes']) { $null = $PSBoundParameters.Remove('AllowEscapedDotsAndSlashes') }
 
+            Write-Host $PSBoundParameters
+            if($PSBoundParameters['Body']) {
+                $enc = [system.Text.Encoding]::UTF8
+                $PSBoundParameters['Body'] = $enc.GetBytes([string]$PSBoundParameters['Body'])
+                Write-Host $PSBoundParameters['Body'].GetType()
+
+                
+                if ($PSBoundParameters['Headers']) {
+                    $PSBoundParameters['Headers']['content-length'] = $test.Count
+                } else {
+                    $PSBoundParameters['Headers'] = @{ 'content-length' = $test.Count }
+                }
+            }
+
             $scriptCmd = {& $wrappedCmd @PSBoundParameters }
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
             $steppablePipeline.Begin($PSCmdlet)
