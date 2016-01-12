@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Add-RabbitMQQueueBinding binds RabbitMQ exchange with queue using RoutingKey
 
-   To add QueueBinding to remote server you need to provide -ComputerName.
+   To add QueueBinding to remote server you need to provide -HostName.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 

@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Add-RabbitMQPermission cmdlet allows to add user permissions to virtual host.
 
-   To add permissions to remote server you need to provide -ComputerName.
+   To add permissions to remote server you need to provide -HostName.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -17,12 +17,12 @@
    Add configure, read and write permissions for user Admin to default virtual host (/).
 
 .EXAMPLE
-   Add-RabbitMQPermission -ComputerName rabbitmq.server.com '/' Admin .* .* .*
+   Add-RabbitMQPermission -HostName rabbitmq.server.com '/' Admin .* .* .*
 
    Add configure, read and write permissions for user Admin to default virtual host (/) on server rabbitmq.server.com. This command uses positional parameters.
 
 .INPUTS
-   You can pipe VirtualHost, User, Configure, Read, Write and ComputerName to this cmdlet.
+   You can pipe VirtualHost, User, Configure, Read, Write and HostName to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.
@@ -65,7 +65,7 @@ function Add-RabbitMQPermission
 
     Begin
     {      
-        $p = Get-RabbitMQPermission -ComputerName $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -User $User
+        $p = Get-RabbitMQPermission -HostName $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -User $User
         if ($p) { throw "Permissions to virtual host $VirtualHost for user $User already exist. To change permissions use Set-RabbitMQPermission cmdlet." }
         
         $cnt = 0

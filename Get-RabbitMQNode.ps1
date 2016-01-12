@@ -8,7 +8,7 @@
    The cmdlet allows you to show list of cluster nodes or filter them by name using wildcards.
    The result may be zero, one or many RabbitMQ.Node objects.
 
-   To get Nodes from remote server you need to provide -ComputerName parameter.
+   To get Nodes from remote server you need to provide -HostName parameter.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -18,7 +18,7 @@
    This command gets a list of nodes in RabbitMQ cluster.
 
 .EXAMPLE
-   Get-RabbitMQNode -ComputerName myrabbitmq.servers.com
+   Get-RabbitMQNode -HostName myrabbitmq.servers.com
 
    This command gets a list of nodes in the cluster on myrabbitmq.servers.com server.
 
@@ -78,7 +78,7 @@ function Get-RabbitMQNode
             
             $result = ApplyFilter $result 'name' $Name
 
-            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
+            $result | Add-Member -NotePropertyName "HostName" -NotePropertyValue $BaseUri
 
             SendItemsToOutput $result "RabbitMQ.Node"
         }

@@ -5,7 +5,7 @@
 .DESCRIPTION
     The Clear-RabbitMQQueue removes all messages from given RabbitMQ queue.
 
-   To remove message from Queue on remote server you need to provide -ComputerName.
+   To remove message from Queue on remote server you need to provide -HostName.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -22,7 +22,7 @@
    Removes all messages from queue "q1" in Virtual Host "vh1" on local computer.
 
 .EXAMPLE
-   Clear-RabbitMQQueue -VirtualHost vh1 -Name q1 -ComputerName rabbitmq.server.com
+   Clear-RabbitMQQueue -VirtualHost vh1 -Name q1 -HostName rabbitmq.server.com
 
    Removes all messages from queue "q1" in Virtual Host "vh1" on "rabbitmq.server.com" server.
 #>

@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Remove-RabbitMQQueue allows for removing queues in given RabbitMQ server. This cmdlet is marked with High impact.
 
-   To remove Queue from remote server you need to provide -ComputerName.
+   To remove Queue from remote server you need to provide -HostName.
 
    You may pipe an object with names and, optionally, with computer names to remove multiple Queues. For more information how to do that see Examples.
 
@@ -24,7 +24,7 @@
    This command removes Queues named "q1" and "q2" from local RabbitMQ server.
 
 .EXAMPLE
-   Remove-RabbitMQQueue test  -VirtualHost vh1 -ComputerName myrabbitmq.servers.com
+   Remove-RabbitMQQueue test  -VirtualHost vh1 -HostName myrabbitmq.servers.com
 
    This command removes Queue named "test" from myrabbitmq.servers.com server.
 
@@ -35,9 +35,9 @@
 
 .EXAMPLE
     $a = $(
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "e1"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "e2"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "127.0.0.1"; "Name" = "e3"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "e1"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "e2"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "127.0.0.1"; "Name" = "e3"}
     )
 
 
@@ -48,7 +48,7 @@
    In the above example two Exchanges named "e1" and "e2" will be removed from RabbitMQ local server, and one Exchange named "e3" will be removed from the server 127.0.0.1.
 
 .INPUTS
-   You can pipe Exchange names and optionally ComputerNames to this cmdlet.
+   You can pipe Exchange names and optionally HostNames to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.

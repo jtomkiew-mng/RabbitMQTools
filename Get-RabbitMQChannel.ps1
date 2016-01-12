@@ -8,7 +8,7 @@
    The cmdlet allows you to show list of opened channels or filter them by name using wildcards.
    The result may be zero, one or many RabbitMQ.Channel objects.
 
-   To get Nodes from remote server you need to provide -ComputerName parameter.
+   To get Nodes from remote server you need to provide -HostName parameter.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -18,7 +18,7 @@
    This command gets a list of opened channels.
 
 .EXAMPLE
-   Get-RabbitMQChannel -ComputerName myrabbitmq.servers.com
+   Get-RabbitMQChannel -HostName myrabbitmq.servers.com
 
    This command gets a list of opened channels to myrabbitmq.servers.com server.
 
@@ -84,7 +84,7 @@ function Get-RabbitMQChannel
             $result = ApplyFilter $result 'name' $Name
             if ($VirtualHost) { $result = ApplyFilter $result 'vhost' $VirtualHost }
 
-            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseURI
+            $result | Add-Member -NotePropertyName "HostName" -NotePropertyValue $BaseURI
 
             SendItemsToOutput $result "RabbitMQ.Channel"
         }

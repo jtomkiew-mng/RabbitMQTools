@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Remove-RabbitMQQueueBinding allows for removing bindings between RabbitMQ queues and exchanges. This cmdlet is marked with High impact.
 
-   To remove Queue binding from remote server you need to provide -ComputerName.
+   To remove Queue binding from remote server you need to provide -HostName.
 
    You may pipe an object with names and, optionally, with computer names to remove multiple Queues. For more information how to do that see Examples.
 
@@ -24,7 +24,7 @@
    This command removes binding "e1-q1" between exchange named "e1" and queue named "q1". The operation is performed on server 127.0.0.1 in default virtual host (/).
 
 .EXAMPLE
-   Remove-RabbitMQQueueBinding -ComputerName 127.0.0.0 -VirtualHost vh1 -ExchangeName e1 -QueueName q1 -RoutingKey 'e1-q1'
+   Remove-RabbitMQQueueBinding -HostName 127.0.0.0 -VirtualHost vh1 -ExchangeName e1 -QueueName q1 -RoutingKey 'e1-q1'
 
    This command removes binding "e1-q1" between exchange named "e1" and queue named "q1". The operation is performed on server 127.0.0.1 in default virtual host (/).
 

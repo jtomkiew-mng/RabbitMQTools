@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Set-RabbitMQPermission cmdlet allows to update user permissions to virtual host.
 
-   To update permissions to remote server you need to provide -ComputerName.
+   To update permissions to remote server you need to provide -HostName.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -17,12 +17,12 @@
    Update configure, read and write permissions for user Admin to default virtual host (/).
 
 .EXAMPLE
-   Set-RabbitMQPermission -ComputerName rabbitmq.server.com '/' Admin .* .* .*
+   Set-RabbitMQPermission -HostName rabbitmq.server.com '/' Admin .* .* .*
 
    Update configure, read and write permissions for user Admin to default virtual host (/) on server rabbitmq.server.com. This command uses positional parameters.
 
 .INPUTS
-   You can pipe VirtualHost, User, Configure, Read, Write and ComputerName to this cmdlet.
+   You can pipe VirtualHost, User, Configure, Read, Write and HostName to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.

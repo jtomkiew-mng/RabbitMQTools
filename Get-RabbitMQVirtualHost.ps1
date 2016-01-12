@@ -8,7 +8,7 @@
    The cmdlet allows you to show all Virtual Hosts or filter them by name using wildcards.
    The result may be zero, one or many RabbitMQ.VirtualHost objects.
 
-   To get Virtual Hosts from remote server you need to provide -ComputerName.
+   To get Virtual Hosts from remote server you need to provide -HostName.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -18,7 +18,7 @@
    This command gets a list of all Virtual Hosts registered with RabbitMQ on local server.
 
 .EXAMPLE
-   Get-RabbitMQVirtualHost -ComputerName myrabbitmq.servers.com
+   Get-RabbitMQVirtualHost -HostName myrabbitmq.servers.com
 
    This command gets a list of all Virtual Hosts registered with RabbitMQ on myrabbitmq.servers.com server.
 
@@ -88,7 +88,7 @@ function Get-RabbitMQVirtualHost
 
             foreach($i in $result)
             {
-                $i | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
+                $i | Add-Member -NotePropertyName "HostName" -NotePropertyValue $BaseUri
             }
 
             SendItemsToOutput $result "RabbitMQ.VirtualHost"

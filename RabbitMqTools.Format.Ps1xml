@@ -141,7 +141,7 @@
 	                            <PropertyName>management_version</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
-	                            <PropertyName>ComputerName</PropertyName>
+	                            <PropertyName>HostName</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
 	                            <PropertyName>node</PropertyName>
@@ -215,7 +215,7 @@
 	                <TableRowEntry>
 	                    <TableColumnItems>
 	                        <TableColumnItem>
-	                            <PropertyName>ComputerName</PropertyName>
+	                            <PropertyName>HostName</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
 	                            <PropertyName>vhost</PropertyName>
@@ -275,7 +275,7 @@
 	                <TableRowEntry>
 	                    <TableColumnItems>
 	                        <TableColumnItem>
-	                            <PropertyName>ComputerName</PropertyName>
+	                            <PropertyName>HostName</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
 	                            <PropertyName>vhost</PropertyName>
@@ -333,7 +333,7 @@
 	                <TableRowEntry>
 	                    <TableColumnItems>
 	                        <TableColumnItem>
-	                            <PropertyName>ComputerName</PropertyName>
+	                            <PropertyName>HostName</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
 								<ScriptBlock>
@@ -405,7 +405,7 @@
 	                <TableRowEntry>
 	                    <TableColumnItems>
 	                        <TableColumnItem>
-	                            <PropertyName>ComputerName</PropertyName>
+	                            <PropertyName>HostName</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
 								<PropertyName>vhost</PropertyName>
@@ -771,7 +771,7 @@
 	                            <PropertyName>no</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
-								<PropertyName>ComputerName</PropertyName>
+								<PropertyName>HostName</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
 								<PropertyName>VirtualHost</PropertyName>
@@ -849,7 +849,7 @@
 	            <TypeName>RabbitMQ.User</TypeName>
 	        </ViewSelectedBy>
 			<GroupBy>
-				<PropertyName>ComputerName</PropertyName>
+				<PropertyName>HostName</PropertyName>
 			</GroupBy>
 	        <TableControl>
 	            <TableHeaders>
@@ -887,7 +887,7 @@
 	        <TableControl>
 	            <TableHeaders>
 	                <TableColumnHeader>
-	                    <Label>ComputerName</Label>
+	                    <Label>HostName</Label>
 	                    <Width>20</Width>
 	                    <Alignment>left</Alignment>
 	                </TableColumnHeader>
@@ -906,7 +906,7 @@
 	                <TableRowEntry>
 	                    <TableColumnItems>
 	                        <TableColumnItem>
-	                            <PropertyName>ComputerName</PropertyName>
+	                            <PropertyName>HostName</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
 	                            <PropertyName>name</PropertyName>
@@ -963,7 +963,7 @@
 	                <TableRowEntry>
 	                    <TableColumnItems>
 	                        <TableColumnItem>
-	                            <PropertyName>ComputerName</PropertyName>
+	                            <PropertyName>HostName</PropertyName>
 	                        </TableColumnItem>
 	                        <TableColumnItem>
 	                            <PropertyName>vhost</PropertyName>
