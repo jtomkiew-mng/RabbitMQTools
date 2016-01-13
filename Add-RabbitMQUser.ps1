@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Add-RabbitMQUser cmdlet allows to create new users in RabbitMQ server.
 
-   To add a user to remote server you need to provide -ComputerName.
+   To add a user to remote server you need to provide -HostName.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -17,13 +17,13 @@
    Create new user with name Admin having administrator tags set. User is added to local RabbitMQ server.
 
 .EXAMPLE
-   Add-RabbitMQUser -ComputerName rabbitmq.server.com Admin p4ssw0rd administrator
+   Add-RabbitMQUser -HostName rabbitmq.server.com Admin p4ssw0rd administrator
 
    Create new user with name "Admin", password "p4ssw0rd" having "administrator" tags set. User is added to rabbitmq.server.com server. This command uses positional parameters.
    Note that password for new user is specified as -NewPassword parameter and not -Password parameter, which is used for authorisation to the server.
 
 .INPUTS
-   You can pipe Name, NewPassword, Tags and ComputerName to this cmdlet.
+   You can pipe Name, NewPassword, Tags and HostName to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.

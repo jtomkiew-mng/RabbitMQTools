@@ -5,9 +5,9 @@
 .DESCRIPTION
    The Add-RabbitMQExchange allows for creating new Exchanges in given RabbitMQ server.
 
-   To add Exchange to remote server you need to provide -ComputerName.
+   To add Exchange to remote server you need to provide -HostName
 
-   You may pipe an object with names and parameters, including ComputerName, to create multiple Exchanges. For more information how to do that see Examples.
+   You may pipe an object with names and parameters, including HostName, to create multiple Exchanges. For more information how to do that see Examples.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -29,7 +29,7 @@
       Creates in the local RabbitMQ server two fanout exchanges named TestExchange and ProdExchange.
 
 .EXAMPLE
-   Add-RabbitMQExchange -Type direct TestExchange -ComputerName myrabbitmq.servers.com
+   Add-RabbitMQExchange -Type direct TestExchange -HostName myrabbitmq.servers.com
 
    Creates direct exchange named TestExchange in the myrabbitmq.servers.com server.
 
@@ -40,9 +40,9 @@
 
 .EXAMPLE
     $a = $(
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "e1", "Type"="direct"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "e2", "Type"="fanout"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "127.0.0.1"; "Name" = "e3", "Type"="topic", Durable=$true, $Internal=$true}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "e1", "Type"="direct"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "e2", "Type"="fanout"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "127.0.0.1"; "Name" = "e3", "Type"="topic", Durable=$true, $Internal=$true}
     )
 
    $a | Add-RabbitMQExchange
@@ -52,7 +52,7 @@
    In the above example three new exchanges will be created with different parameters.
 
 .INPUTS
-   You can pipe Name, Type, Durable, AutoDelete, Internal, AlternateExchange, VirtualHost and ComputerName to this cmdlet.
+   You can pipe Name, Type, Durable, AutoDelete, Internal, AlternateExchange, VirtualHost and HostName to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.

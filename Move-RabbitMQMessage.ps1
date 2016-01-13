@@ -17,7 +17,7 @@
      Because of the nature of moving messages, this operation may change order of messages in the destination queue.
      
 
-   To move messages on remote server you need to provide -ComputerName parameter.
+   To move messages on remote server you need to provide -HostName parameter.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 

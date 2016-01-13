@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Remove-RabbitMQVirtualHost allows for removing Virtual Hosts in given RabbitMQ server. This cmdlet is marked with High impact.
 
-   To remove Virtual Hosts from remote server you need to provide -ComputerName.
+   To remove Virtual Hosts from remote server you need to provide -HostName.
 
    You may pipe an object with names and, optionally, with computer names to remove multiple VirtualHosts. For more information how to do that see Examples.
 
@@ -24,7 +24,7 @@
    This command removes Virtual Hosts named "VHost1" and "VHost2" from local RabbitMQ server.
 
 .EXAMPLE
-   Remove-RabbitMQVirtualHost testHost -ComputerName myrabbitmq.servers.com
+   Remove-RabbitMQVirtualHost testHost -HostName myrabbitmq.servers.com
 
    This command removes Virtual Host named "testHost" from myrabbitmq.servers.com server.
 
@@ -35,9 +35,9 @@
 
 .EXAMPLE
     $a = $(
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "vh1"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "vh2"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "127.0.0.1"; "Name" = "vh3"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "vh1"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "vh2"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "127.0.0.1"; "Name" = "vh3"}
     )
 
 
@@ -48,7 +48,7 @@
    In the above example two Virtual Hosts named "vh1" and "vh2" will be removed from RabbitMQ local server, and one Virtual Host named "vh3" will be removed from the server 127.0.0.1.
 
 .INPUTS
-   You can pipe VirtualHost names and optionally ComputerNames to this cmdlet.
+   You can pipe VirtualHost names and optionally HostNames to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.

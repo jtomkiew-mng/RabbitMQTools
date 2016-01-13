@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Remove-RabbitMQUser cmdlet allows to delete users from RabbitMQ server.
 
-   To remove a user from remote server you need to provide -ComputerName.
+   To remove a user from remote server you need to provide -HostName.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -17,12 +17,12 @@
    Deletes user "Admin"from local RabbitMQ server.
 
 .EXAMPLE
-   Remove-RabbitMQUser -ComputerName rabbitmq.server.com Admin
+   Remove-RabbitMQUser -HostName rabbitmq.server.com Admin
 
    Deletes user "Admin" from rabbitmq.server.com server. This command uses positional parameters.
 
 .INPUTS
-   You can pipe Name and ComputerName to this cmdlet.
+   You can pipe Name and HostName to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.

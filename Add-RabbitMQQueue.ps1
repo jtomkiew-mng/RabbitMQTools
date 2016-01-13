@@ -5,9 +5,9 @@
 .DESCRIPTION
    The Add-RabbitMQQueue allows for creating new queues in RabbitMQ server.
 
-   To add Queue to remote server you need to provide -ComputerName.
+   To add Queue to remote server you need to provide -HostName.
 
-   You may pipe an object with Name, Queue parameters, VirtualHost and ComputerName to create multiple queues. For more information how to do that see Examples.
+   You may pipe an object with Name, Queue parameters, VirtualHost and HostName to create multiple queues. For more information how to do that see Examples.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -24,7 +24,7 @@
    This command adds two new queues named "queue1" and "queue2" to local RabbitMQ server.
 
 .EXAMPLE
-   Add-RabbitMQQueue queue1 -ComputerName myrabbitmq.servers.com
+   Add-RabbitMQQueue queue1 -HostName myrabbitmq.servers.com
 
    This command adds new queue named "queue1" to myrabbitmq.servers.com server.
 
@@ -35,9 +35,9 @@
 
 .EXAMPLE
     $a = $(
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "vh1"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "vh2"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "127.0.0.1"; "Name" = "vh3"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "vh1"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "vh2"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "127.0.0.1"; "Name" = "vh3"}
     )
 
 
@@ -51,7 +51,7 @@
    This command will create a new queue and set message TTL to 60 seconds.
 
 .INPUTS
-   You can pipe VirtualHost names and optionally ComputerNames to this cmdlet.
+   You can pipe VirtualHost names and optionally HostNames to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.

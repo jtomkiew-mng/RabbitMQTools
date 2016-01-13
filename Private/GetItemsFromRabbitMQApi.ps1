@@ -4,7 +4,7 @@
     Param
     (
         [parameter(Mandatory=$true, Position = 0)]
-        [alias("ComputerName", "cn")]
+        [alias("HostName", "cn")]
         [string]$BaseUri = $defaultComputerName,
 
         [parameter(Mandatory=$true, Position = 1)]
