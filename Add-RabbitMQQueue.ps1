@@ -86,7 +86,7 @@ function Add-RabbitMQQueue
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$false)]
-        [PSCredential]$Credentials = $defaultCredentials
+        [PSCredential]$Credentials = $defaultCredentials,
 
         # Optional arguments
         [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true)]
