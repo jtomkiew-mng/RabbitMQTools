@@ -40,7 +40,7 @@ function Get-RabbitMQOverview
     (
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
-        [Alias("cn", "HostName", "HostName")]
+        [Alias("cn", "HostName", "ComputerName")]
         [string[]]$BaseUri = $defaultComputerName,
 
         # Credentials to use when logging to RabbitMQ server.
