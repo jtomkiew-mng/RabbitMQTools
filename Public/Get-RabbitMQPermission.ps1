@@ -8,7 +8,7 @@
    The cmdlet allows you to show all permissions or filter them by VirtualHost and/or User using wildcards.
    The result may be zero, one or many RabbitMQ.Permission objects.
 
-   To get permissions from remote server you need to provide -ComputerName.
+   To get permissions from remote server you need to provide -HostName.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -18,7 +18,7 @@
    Show permissions of all users and all virtual hosts from the local RabbitMQ server.
 
 .EXAMPLE
-   Get-RabbitMQPermission -ComputerName myrabbitmq.servers.com
+   Get-RabbitMQPermission -HostName myrabbitmq.servers.com
 
    Show permissions of all users and all virtual hosts from the myrabbitmq.servers.com server RabbitMQ server.
 
@@ -84,7 +84,7 @@ function Get-RabbitMQPermission
 
             foreach($i in $result)
             {
-                $i | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
+                $i | Add-Member -NotePropertyName "HostName" -NotePropertyValue $BaseUri
             }
 
             SendItemsToOutput $result "RabbitMQ.Permission"

@@ -8,7 +8,7 @@
    The cmdlet allows you to show list of all queues or filter them by name using wildcards.
    The result may be zero, one or many RabbitMQ.Queue objects.
 
-   To get Queues from remote server you need to provide -ComputerName parameter.
+   To get Queues from remote server you need to provide -HostName parameter.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
@@ -18,7 +18,7 @@
    This command gets a list of all queues reigsters with local RabbitMQ server.
 
 .EXAMPLE
-   Get-RabbitMQQueue -ComputerName myrabbitmq.servers.com
+   Get-RabbitMQQueue -HostName myrabbitmq.servers.com
 
    This command gets a list of all queues registerd with myrabbitmq.servers.com server.
 
@@ -49,7 +49,7 @@
    This command pipes queue name filters to Get-RabbitMQQueue cmdlet.
 
 .INPUTS
-   You can pipe queue Name, VirtualHost and ComputerName to filter the results.
+   You can pipe queue Name, VirtualHost and HostName to filter the results.
 
 .OUTPUTS
    By default, the cmdlet returns list of RabbitMQ.Queue objects which describe RabbitMQ queue.
@@ -112,7 +112,7 @@ function Get-RabbitMQQueue
                 $result = $result | ? messages -ne 0 
             }
 
-            $result | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $BaseUri
+            $result | Add-Member -NotePropertyName "HostName" -NotePropertyValue $BaseUri
 
             if ($ShowStats)
             {

@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Remove-RabbitMQConnection allows for closing connection to the RabbitMQ server. This cmdlet is marked with High impact.
 
-   To close connections to the remote server you need to provide -ComputerName parameter.
+   To close connections to the remote server you need to provide -HostName parameter.
 
    You may pipe an object with names and, optionally, with computer names to close multiple connection. For more information how to do that see Examples.
 
@@ -22,7 +22,7 @@
    This command closes connections  to local RabbitMQ server named "c1" and "c2".
 
 .EXAMPLE
-   Remove-RabbitMQConnection c1 -ComputerName myrabbitmq.servers.com
+   Remove-RabbitMQConnection c1 -HostName myrabbitmq.servers.com
 
    This command closes connection c1 to myrabbitmq.servers.com server.
 
@@ -33,9 +33,9 @@
 
 .EXAMPLE
     $a = $(
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "c1"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "c2"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "127.0.0.1"; "Name" = "c3"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "c1"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "c2"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "127.0.0.1"; "Name" = "c3"}
     )
 
 
@@ -46,7 +46,7 @@
    The above example will close two connection named "c1" and "c2" to local server, and one connection named "c3" to the server 127.0.0.1.
 
 .INPUTS
-   You can pipe connection names and optionally ComputerNames to this cmdlet.
+   You can pipe connection names and optionally HostNames to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.

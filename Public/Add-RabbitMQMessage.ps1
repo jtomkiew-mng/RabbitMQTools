@@ -7,7 +7,7 @@
 
    The result may be zero, one or many RabbitMQ.Message objects.
 
-   To get Connections from remote server you need to provide -ComputerName parameter.
+   To get Connections from remote server you need to provide -HostName parameter.
 
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 

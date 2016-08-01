@@ -5,7 +5,7 @@
 .DESCRIPTION
    The Add-RabbitMQVirtualHost allows for creating new Virtual Hosts in given RabbitMQ server.
 
-   To add Virtual Hosts to remote server you need to provide -ComputerName.
+   To add Virtual Hosts to remote server you need to provide -HostName.
 
    You may pipe an object with names and, optionally, with computer names to create multiple VirtualHosts. For more information how to do that see Examples.
 
@@ -24,7 +24,7 @@
    This command adds two new Virtual Hosts named "VHost1" and "VHost2" to local RabbitMQ server.
 
 .EXAMPLE
-   Add-RabbitMQVirtualHost testHost -ComputerName myrabbitmq.servers.com
+   Add-RabbitMQVirtualHost testHost -HostName myrabbitmq.servers.com
 
    This command adds new Virtual Host named "testHost" to myrabbitmq.servers.com server.
 
@@ -35,9 +35,9 @@
 
 .EXAMPLE
     $a = $(
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "vh1"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "localhost"; "Name" = "vh2"}
-        New-Object -TypeName psobject -Prop @{"ComputerName" = "127.0.0.1"; "Name" = "vh3"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "vh1"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "localhost"; "Name" = "vh2"}
+        New-Object -TypeName psobject -Prop @{"HostName" = "127.0.0.1"; "Name" = "vh3"}
     )
 
 
@@ -48,7 +48,7 @@
    In the above example two new Virtual Hosts named "vh1" and "vh1" will be created in RabbitMQ local server, and one Virtual Host named "vh3" will be created on the server 127.0.0.1.
 
 .INPUTS
-   You can pipe VirtualHost names and optionally ComputerNames to this cmdlet.
+   You can pipe VirtualHost names and optionally HostNames to this cmdlet.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.

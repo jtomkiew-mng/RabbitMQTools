@@ -10,7 +10,7 @@
    The cmdlet is using REST Api provided by RabbitMQ Management Plugin. For more information go to: https://www.rabbitmq.com/management.html
 
 .INPUTS
-   You can pipe ComputerName to the cmdlet.
+   You can pipe HostName to the cmdlet.
 
 .OUTPUTS
    By default, the cmdlet returns list of RabbitMQ.ServerOverview objects which describe RabbitMQ server. 
@@ -65,7 +65,7 @@ function Get-RabbitMQOverview
         foreach ($cn in $BaseUri)
         {
             $overview = GetItemsFromRabbitMQApi -BaseUri $cn $Credentials "overview"
-            $overview | Add-Member -NotePropertyName "ComputerName" -NotePropertyValue $cn
+            $overview | Add-Member -NotePropertyName "HostName" -NotePropertyValue $cn
             $overview.PSObject.TypeNames.Insert(0, "RabbitMQ.ServerOverview")
 
             Write-Output $overview
