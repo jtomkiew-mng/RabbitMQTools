@@ -1,6 +1,6 @@
 ﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\TestSetup.ps1"
-. "$here\..\Add-RabbitMQVirtualHost.ps1"
+. "$here\..\Public\Add-RabbitMQVirtualHost.ps1"
 
 function TearDownTest() {
     
