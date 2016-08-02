@@ -43,17 +43,17 @@ function Add-RabbitMQQueueBinding
 
         # Name of RabbitMQ Exchange.
         [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=1)]
-        [Alias("exchange")]
+        [Alias("exchange", "source")]
         [string]$ExchangeName,
 
         # Name of RabbitMQ Queue.
         [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=2)]
-        [Alias("queue", "QueueName")]
+        [Alias("queue", "QueueName", "destination")]
         [string]$Name,
 
         # Routing key.
         [parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=3, ParameterSetName='RoutingKey')]
-        [Alias("rk")]
+        [Alias("rk", "routing_key")]
         [string]$RoutingKey,
 
         # Headers hashtable
