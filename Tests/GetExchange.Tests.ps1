@@ -1,6 +1,6 @@
 ﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\TestSetup.ps1"
-. "$here\..\Get-RabbitMQExchange.ps1"
+. "$here\..\Public\Get-RabbitMQExchange.ps1"
 
 
 Describe -Tags "Example" "Get-RabbitMQExchange" {

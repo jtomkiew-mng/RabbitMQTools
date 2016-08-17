@@ -3,9 +3,9 @@
 $server = "http://localhost:15672"
 
 . "$here\..\Private\Constants.ps1"
-. "$here\..\ScriptsToProcess\Invoke_RestMethodProxy.ps1"
+. "$here\..\Private\Invoke-RestMethod.ps1"
 . "$here\..\Private\NamesToString.ps1"
-. "$here\..\ScriptsToProcess\PreventUnEscapeDotsAndSlashesOnUri.ps1"
+. "$here\..\Private\PreventUnEscapeDotsAndSlashesOnUri.ps1"
 . "$here\..\Private\SendItemsToOutput.ps1"
 . "$here\..\Private\Join-Parts.ps1"
 . "$here\..\Private\GetItemsFromRabbitMQApi.ps1"

@@ -95,6 +95,19 @@
             # remove additional proxy parameter to prevent original function from failing
             if($PSBoundParameters['AllowEscapedDotsAndSlashes']) { $null = $PSBoundParameters.Remove('AllowEscapedDotsAndSlashes') }
 
+            
+            #By default the content-length is -1, which prevents ['Body'] from setting the content length.
+            if($PSBoundParameters['Body']) {
+                if ($PSBoundParameters['Headers']) {
+                    $PSBoundParameters['Headers']['content-length'] = 0
+                } else {
+                    $PSBoundParameters['Headers'] = @{ 'content-length' = 0 }
+                }
+            }
+            
+            #It seems that sometimes errors occur if you don't yield a short time.
+            Start-Sleep -Milliseconds 100
+
             $scriptCmd = {& $wrappedCmd @PSBoundParameters }
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
             $steppablePipeline.Begin($PSCmdlet)

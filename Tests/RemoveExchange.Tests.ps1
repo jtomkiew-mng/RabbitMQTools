@@ -1,6 +1,6 @@
 ﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\TestSetup.ps1"
-. "$here\..\Remove-RabbitMQExchange.ps1"
+. "$here\..\Public\Remove-RabbitMQExchange.ps1"
 
 Describe -Tags "Example" "Remove-RabbitMQExchange" {
     It "should remove existing Exchange" {

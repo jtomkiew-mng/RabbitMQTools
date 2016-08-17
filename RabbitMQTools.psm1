@@ -1,5 +1,5 @@
 ﻿#Get public and private function definition files.
-    $Public  = Get-ChildItem $PSScriptRoot\*.ps1 -ErrorAction SilentlyContinue 
+    $Public  = Get-ChildItem $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue 
     $Private = Get-ChildItem $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue 
 
 #Dot source the files
@@ -37,4 +37,4 @@ New-Alias -Name addqueuebinding -value Add-RabbitMQQueueBinding -Description "Ad
 New-Alias -Name getmessage -value Get-RabbitMQMessage -Description "Gets messages from RabbitMQ queue"
 
 # Modules
-Export-ModuleMember -Function $($Public | Select -ExpandProperty BaseName) -Alias *
+#Export-ModuleMember -Function $($Public | Select -ExpandProperty BaseName) -Alias *
