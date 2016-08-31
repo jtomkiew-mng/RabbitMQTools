@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/ch6ow47f6bnpwrvx/branch/master?svg=true)](https://ci.appveyor.com/project/RamblingCookieMonster/rabbitmqtools/branch/master)
+
 RabbitMQTools
 =============
 
@@ -14,6 +16,9 @@ A brief walk through on some basic components of this module are included in the
 # https://github.com/RamblingCookieMonster/RabbitMQTools/archive/master.zip
 # Unblock the archive
 # Copy the RabbitMQTools module to one of your module paths ($env:PSModulePath -split ";")
+
+# Alternatively, with PowerShell 5, or PowerShellGet:
+    Install-Module RabbitMQTools
 
 #Import the module
     Import-Module RabbitMQTools -force
