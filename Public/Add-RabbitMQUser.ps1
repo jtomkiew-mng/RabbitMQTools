@@ -69,7 +69,7 @@ function Add-RabbitMQUser
                 'password' = $NewPassword
                 'tags' = $Tag -join ','
             } | ConvertTo-Json
-            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Put -ContentType "application/json" -Body $body
+            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Put -ContentType "application/json" -Body $body
 
             Write-Verbose "Created user $User with tags $Tag"
             $cnt++
