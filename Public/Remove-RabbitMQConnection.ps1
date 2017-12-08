@@ -89,7 +89,7 @@ function Remove-RabbitMQConnection
         foreach($n in $Name)
         {
             $url = Join-Parts $BaseUri "/api/connections/$([System.Web.HttpUtility]::UrlEncode($n))"
-            $result = Invoke-RestMethod $url -Credential $Credentials -DisableKeepAlive -ErrorAction Continue -Method Delete
+            $result = Invoke-RestMethod $url -Credential $Credentials -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Delete
 
             Write-Verbose "Closed connection $n to server $BaseUri"
             $cnt++

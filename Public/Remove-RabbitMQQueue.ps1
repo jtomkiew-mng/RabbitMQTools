@@ -91,7 +91,7 @@ function Remove-RabbitMQQueue
                 $url = Join-Parts $BaseUri "/api/queues/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($n))"
                 Write-Verbose "Invoking REST API: $url"
         
-                $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Delete
+                $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Delete
 
                 Write-Verbose "Deleted Queue $n on server $BaseUri, Virtual Host $VirtualHost"
                 $cnt++

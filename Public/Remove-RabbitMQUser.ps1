@@ -55,7 +55,7 @@ function Remove-RabbitMQUser
         if ($pscmdlet.ShouldProcess("server: $BaseUri", "Delete user $Name"))
         {
             $url = Join-Parts $BaseUri "/api/users/$([System.Web.HttpUtility]::UrlEncode($Name))"
-            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Delete -ContentType "application/json"
+            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Delete -ContentType "application/json"
 
             Write-Verbose "Deleted user $User"
             $cnt++

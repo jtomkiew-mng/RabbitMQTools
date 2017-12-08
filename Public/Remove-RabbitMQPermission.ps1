@@ -63,7 +63,7 @@ function Remove-RabbitMQPermission
         if ($pscmdlet.ShouldProcess("server: $BaseUri", "Remove permissions to virtual host $VirtualHost for user $User : $Configure, $Read $Write"))
         {
             $url = Join-Parts $BaseUri "/api/permissions/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/$([System.Web.HttpUtility]::UrlEncode($User))"
-            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive -ErrorAction Continue -Method Delete
+            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Delete
 
             Write-Verbose "Removed permissions to $VirtualHost for $User : $Configure, $Read, $Write"
             $cnt++
