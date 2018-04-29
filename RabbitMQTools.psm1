@@ -1,4 +1,4 @@
-﻿#Set Module Variables
+#Set Module Variables
 $InvokeRestMethodKeepAlive = $True
 $PSEdition = $PSVersiontable.PSEdition # This is used to determine the correct variables when calling Invoke-RestMethod
 
