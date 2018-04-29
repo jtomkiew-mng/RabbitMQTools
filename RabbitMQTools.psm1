@@ -1,5 +1,6 @@
 ﻿#Set Module Variables
 $InvokeRestMethodKeepAlive = $True
+$PSEdition = $PSVersiontable.PSEdition # This is used to determine the correct variables when calling Invoke-RestMethod
 
 #Get public and private function definition files.
     $Public  = Get-ChildItem $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue 

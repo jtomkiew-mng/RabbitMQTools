@@ -108,7 +108,14 @@
             #It seems that sometimes errors occur if you don't yield a short time.
             Start-Sleep -Milliseconds 100
 
-            $scriptCmd = {& $wrappedCmd @PSBoundParameters }
+            #Support for Powershell Core ($PSEdition is defined in RabbitMQTools.psm1)
+            If ($PSEdition -eq 'Core') {
+                Write-Debug "Using powershell core param set"
+                $scriptCmd = {& $wrappedCmd @PSBoundParameters -Authentication 'Basic' -AllowUnencryptedAuthentication -SkipHeaderValidation}
+            }
+            else {
+                $scriptCmd = {& $wrappedCmd @PSBoundParameters }
+            }
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
             $steppablePipeline.Begin($PSCmdlet)
         } catch {
