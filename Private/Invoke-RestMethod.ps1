@@ -117,7 +117,7 @@ function Invoke-RestMethod
             #Support for Powershell Core ($PSEdition is defined in RabbitMQTools.psm1)
             If ($PSEdition -eq 'Core') {
                 #For core you must explicitly define the Authentication method.
-                #Also strict header checks are in place for core which we skip to emulate the previous behaviour on desktop
+                #AllowUnencryptedAuthentication and SkipHeaderValidation are specified to mimic the previous behaviour of invoke-restmethod for desktop powershell
                 $scriptCmd = {& $wrappedCmd @PSBoundParameters -Authentication 'Basic' -AllowUnencryptedAuthentication -SkipHeaderValidation}
             }
             else {
