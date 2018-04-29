@@ -1,4 +1,10 @@
-﻿function Invoke-RestMethod
+﻿<#
+    .NOTES
+    Invoke-RestMethod parameter have changed somewhat in powershell core. 
+    See https://get-powershellblog.blogspot.co.uk/2017/11/powershell-core-web-cmdlets-in-depth.html#L08
+#>
+
+function Invoke-RestMethod
 {
     [CmdletBinding(HelpUri='http://go.microsoft.com/fwlink/?LinkID=217034')]
     param(
@@ -110,7 +116,8 @@
 
             #Support for Powershell Core ($PSEdition is defined in RabbitMQTools.psm1)
             If ($PSEdition -eq 'Core') {
-                Write-Debug "Using powershell core param set"
+                #For core you must explicitly define the Authentication method.
+                #Also strict header checks are in place for core which we skip to emulate the previous behaviour on desktop
                 $scriptCmd = {& $wrappedCmd @PSBoundParameters -Authentication 'Basic' -AllowUnencryptedAuthentication -SkipHeaderValidation}
             }
             else {
