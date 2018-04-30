@@ -97,30 +97,30 @@ function Invoke-RestMethod
             $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('Microsoft.PowerShell.Utility\Invoke-RestMethod', [System.Management.Automation.CommandTypes]::Cmdlet)
 
             # check whether need to disable UnEscapingDotsAndSlases on UriParser
+            Write-Verbose "$($uri.originalstring)"
             $requiresDisableUnEscapingDotsAndSlashes = ($AllowEscapedDotsAndSlashes -and $Uri.OriginalString -match '%2f')
             # remove additional proxy parameter to prevent original function from failing
             if($PSBoundParameters['AllowEscapedDotsAndSlashes']) { $null = $PSBoundParameters.Remove('AllowEscapedDotsAndSlashes') }
-
             
-            #By default the content-length is -1, which prevents ['Body'] from setting the content length.
-            if($PSBoundParameters['Body']) {
-                if ($PSBoundParameters['Headers']) {
-                    $PSBoundParameters['Headers']['content-length'] = 0
-                } else {
-                    $PSBoundParameters['Headers'] = @{ 'content-length' = 0 }
-                }
-            }
-            
-            #It seems that sometimes errors occur if you don't yield a short time.
-            Start-Sleep -Milliseconds 100
-
-            #Support for Powershell Core ($PSEdition is defined in RabbitMQTools.psm1)
+            #Invoke-RestMethod for Powershell Core
             If ($PSEdition -eq 'Core') {
                 #For core you must explicitly define the Authentication method.
                 #AllowUnencryptedAuthentication and SkipHeaderValidation are specified to mimic the previous behaviour of invoke-restmethod for desktop powershell
                 $scriptCmd = {& $wrappedCmd @PSBoundParameters -Authentication 'Basic' -AllowUnencryptedAuthentication -SkipHeaderValidation}
             }
+            #Invoke-RestMethod for Powershell Desktop
             else {
+                #By default the content-length is -1, which prevents ['Body'] from setting the content length.
+                if($PSBoundParameters['Body']) {
+                    if ($PSBoundParameters['Headers']) {
+                        $PSBoundParameters['Headers']['content-length'] = 0
+                    } else {
+                        $PSBoundParameters['Headers'] = @{ 'content-length' = 0 }
+                    }
+                }
+                
+                #It seems that sometimes errors occur if you don't yield a short time.
+                Start-Sleep -Milliseconds 100
                 $scriptCmd = {& $wrappedCmd @PSBoundParameters }
             }
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
