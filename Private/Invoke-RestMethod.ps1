@@ -103,7 +103,7 @@ function Invoke-RestMethod
             if($PSBoundParameters['AllowEscapedDotsAndSlashes']) { $null = $PSBoundParameters.Remove('AllowEscapedDotsAndSlashes') }
             
             #Invoke-RestMethod for Powershell Core
-            If ($PSEdition -eq 'Core') {
+            If ($isPowershellCore) {
                 #For core you must explicitly define the Authentication method.
                 #AllowUnencryptedAuthentication and SkipHeaderValidation are specified to mimic the previous behaviour of invoke-restmethod for desktop powershell
                 $scriptCmd = {& $wrappedCmd @PSBoundParameters -Authentication 'Basic' -AllowUnencryptedAuthentication -SkipHeaderValidation}
@@ -134,7 +134,7 @@ function Invoke-RestMethod
     {
         try {
             # Disable UnEscapingDotsAndSlashes on UriParser when necessary
-            if ($requiresDisableUnEscapingDotsAndSlashes) {
+            if ($requiresDisableUnEscapingDotsAndSlashes -and -not $isPowershellCore) {
                 PreventUnEscapeDotsAndSlashesOnUri
             }
 
@@ -142,7 +142,7 @@ function Invoke-RestMethod
         } 
         finally {
             # Restore UnEscapingDotsAndSlashes on UriParser when necessary
-            if ($requiresDisableUnEscapingDotsAndSlashes) {
+            if ($requiresDisableUnEscapingDotsAndSlashes -and -not $isPowershellCore) {
                 RestoreUriParserFlags
             }
         }
