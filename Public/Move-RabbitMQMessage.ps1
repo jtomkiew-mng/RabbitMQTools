@@ -7,15 +7,15 @@
    Both source and destination queues must be in the same Virtual Host.
    The "exchange" and "routing_key" properties on moved messages will ba changed.
 
-   Moving messages is done by publishing source message on the destination queue and removing it from source queue. 
-   
+   Moving messages is done by publishing source message on the destination queue and removing it from source queue.
+
    The cmdlet is not designed to be used on sensitive data.
 
    WARNING
-     This operation is not transactional and may result in not all messages being moved or some messages being duplicated. 
+     This operation is not transactional and may result in not all messages being moved or some messages being duplicated.
      Also, if there are new messages published to the source queue or messages are consumed, then the operation may fail with unexpected result.
      Because of the nature of moving messages, this operation may change order of messages in the destination queue.
-     
+
 
    To move messages on remote server you need to provide -HostName parameter.
 
@@ -80,15 +80,15 @@ function Move-RabbitMQMessage
     Begin
     {
         $cnt = 0
-        
-        $exchange = Get-RabbitMQQueueBinding -VirtualHost $VirtualHost -Name $DestinationQueueName -Credentials $Credentials | ? source -ne "" | select -First 1
+
+        $exchange = Get-RabbitMQQueueBinding -BaseUri $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -Name $DestinationQueueName | ? source -ne "" | select -First 1
     }
     Process
     {
         $s = @{$true=$Count;$false='all'}[$Count -gt 0]
         if ($pscmdlet.ShouldProcess("server: $BaseUri/$VirtualHost", "Move $s messages from queue $SourceQueueName to queue $DestinationQueueName."))
         {
-            $m = Get-RabbitMQMessage -Credentials $Credentials -VirtualHost $VirtualHost -Name $SourceQueueName
+            $m = Get-RabbitMQMessage -BaseUri $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -Name $SourceQueueName
             $c = $m.message_count + 1
 
             if ($Count -eq 0 -or $Count -gt $c ) { $Count = $c }
@@ -97,13 +97,13 @@ function Move-RabbitMQMessage
             for ($i = 1; $i -le $Count; $i++)
             {
                 # get message to be copies, but do not remove it from the server yet.
-                $m = Get-RabbitMQMessage -Credentials $Credentials -VirtualHost $VirtualHost -Name $SourceQueueName
+                $m = Get-RabbitMQMessage -BaseUri $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -Name $SourceQueueName
 
                 # publish message to copying exchange, this will publish it onto dest queue as well as src queue.
-                Add-RabbitMQMessage -Credentials $Credentials -VirtualHost $VirtualHost -ExchangeName $exchange.source -RoutingKey $exchange.routing_key -Payload $m.payload -Properties $m.properties
+                Add-RabbitMQMessage -BaseUri $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -ExchangeName $exchange.source -RoutingKey $exchange.routing_key -Payload $m.payload -Properties $m.properties
 
                 # remove message from src queue. It has been published step earlier.
-                $m = Get-RabbitMQMessage -Credentials $Credentials -VirtualHost $VirtualHost -Name $SourceQueueName -Remove
+                $m = Get-RabbitMQMessage -BaseUri $BaseUri -Credentials $Credentials -VirtualHost $VirtualHost -Name $SourceQueueName -Remove
 
                 Write-Verbose "published message $i out of $Count"
                 $cnt++
@@ -115,3 +115,4 @@ function Move-RabbitMQMessage
         Write-Verbose "`r`nMoved $cnt messages from queue $SourceQueueName to queue $DestinationQueueName."
     }
 }
+
