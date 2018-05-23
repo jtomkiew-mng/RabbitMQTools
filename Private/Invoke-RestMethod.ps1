@@ -1,4 +1,10 @@
-﻿function Invoke-RestMethod
+﻿<#
+    .NOTES
+    Invoke-RestMethod parameter have changed somewhat in powershell core. 
+    See https://get-powershellblog.blogspot.co.uk/2017/11/powershell-core-web-cmdlets-in-depth.html#L08
+#>
+
+function Invoke-RestMethod
 {
     [CmdletBinding(HelpUri='http://go.microsoft.com/fwlink/?LinkID=217034')]
     param(
@@ -91,24 +97,32 @@
             $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('Microsoft.PowerShell.Utility\Invoke-RestMethod', [System.Management.Automation.CommandTypes]::Cmdlet)
 
             # check whether need to disable UnEscapingDotsAndSlases on UriParser
+            Write-Verbose "$($uri.originalstring)"
             $requiresDisableUnEscapingDotsAndSlashes = ($AllowEscapedDotsAndSlashes -and $Uri.OriginalString -match '%2f')
             # remove additional proxy parameter to prevent original function from failing
             if($PSBoundParameters['AllowEscapedDotsAndSlashes']) { $null = $PSBoundParameters.Remove('AllowEscapedDotsAndSlashes') }
-
             
-            #By default the content-length is -1, which prevents ['Body'] from setting the content length.
-            if($PSBoundParameters['Body']) {
-                if ($PSBoundParameters['Headers']) {
-                    $PSBoundParameters['Headers']['content-length'] = 0
-                } else {
-                    $PSBoundParameters['Headers'] = @{ 'content-length' = 0 }
-                }
+            #Invoke-RestMethod for Powershell Core
+            If ($isPowershellCore) {
+                #For core you must explicitly define the Authentication method.
+                #AllowUnencryptedAuthentication and SkipHeaderValidation are specified to mimic the previous behaviour of invoke-restmethod for desktop powershell
+                $scriptCmd = {& $wrappedCmd @PSBoundParameters -Authentication 'Basic' -AllowUnencryptedAuthentication -SkipHeaderValidation}
             }
-            
-            #It seems that sometimes errors occur if you don't yield a short time.
-            Start-Sleep -Milliseconds 100
-
-            $scriptCmd = {& $wrappedCmd @PSBoundParameters }
+            #Invoke-RestMethod for Powershell Desktop
+            else {
+                #By default the content-length is -1, which prevents ['Body'] from setting the content length.
+                if($PSBoundParameters['Body']) {
+                    if ($PSBoundParameters['Headers']) {
+                        $PSBoundParameters['Headers']['content-length'] = 0
+                    } else {
+                        $PSBoundParameters['Headers'] = @{ 'content-length' = 0 }
+                    }
+                }
+                
+                #It seems that sometimes errors occur if you don't yield a short time.
+                Start-Sleep -Milliseconds 100
+                $scriptCmd = {& $wrappedCmd @PSBoundParameters }
+            }
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
             $steppablePipeline.Begin($PSCmdlet)
         } catch {
@@ -120,7 +134,7 @@
     {
         try {
             # Disable UnEscapingDotsAndSlashes on UriParser when necessary
-            if ($requiresDisableUnEscapingDotsAndSlashes) {
+            if ($requiresDisableUnEscapingDotsAndSlashes -and -not $isPowershellCore) {
                 PreventUnEscapeDotsAndSlashesOnUri
             }
 
@@ -128,7 +142,7 @@
         } 
         finally {
             # Restore UnEscapingDotsAndSlashes on UriParser when necessary
-            if ($requiresDisableUnEscapingDotsAndSlashes) {
+            if ($requiresDisableUnEscapingDotsAndSlashes -and -not $isPowershellCore) {
                 RestoreUriParserFlags
             }
         }

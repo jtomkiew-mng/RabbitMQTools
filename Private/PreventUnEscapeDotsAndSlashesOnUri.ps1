@@ -1,6 +1,4 @@
-﻿if (-not $UnEscapeDotsAndSlashes) { Set-Variable -Scope Script -name UnEscapeDotsAndSlashes -value 0x2000000 }
-
-function GetUriParserFlags
+﻿function GetUriParserFlags
 {
 
     $getSyntax = [System.UriParser].GetMethod("GetSyntax", 40)
@@ -47,5 +45,3 @@ function RestoreUriParserFlags
     }
 }
 
-if (-not $defaultUriParserFlagsValue) { Set-Variable -Scope Script -name defaultUriParserFlagsValue -value (GetUriParserFlags) }
-if (-not $uriUnEscapesDotsAndSlashes) { Set-Variable -Scope Script -name uriUnEscapesDotsAndSlashes -value (($defaultUriParserFlagsValue -band $UnEscapeDotsAndSlashes) -eq $UnEscapeDotsAndSlashes) }

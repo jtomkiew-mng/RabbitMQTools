@@ -120,6 +120,7 @@ function Get-RabbitMQMessage
                 "count" = $Count
                 "requeue" = -not [bool]$Remove
                 "encoding" = $Encoding
+                "ackmode" = @("ack_requeue_true","ack_requeue_false")[[bool]$Remove]
             }
             if ($Truncate) { $body.Add("truncate", $Truncate) }
 

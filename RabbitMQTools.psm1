@@ -1,5 +1,11 @@
-﻿#Set Module Variables
+#Set Module Variables
 $InvokeRestMethodKeepAlive = $True
+
+#Capture PSEdition
+$isPowershellCore = $false
+If ($PSVersiontable.PSEdition -eq 'core') {
+    $isPowershellCore = $true
+} 
 
 #Get public and private function definition files.
     $Public  = Get-ChildItem $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue 
@@ -17,6 +23,14 @@ $InvokeRestMethodKeepAlive = $True
             Write-Error "Failed to import function $($import.fullname)"
         }
     }
+
+# Uri parser variables
+if (-not $isPowershellCore) {
+    if (-not $UnEscapeDotsAndSlashes) { Set-Variable -Scope Script -name UnEscapeDotsAndSlashes -value 0x2000000 }
+    if (-not $defaultUriParserFlagsValue) { Set-Variable -Scope Script -name defaultUriParserFlagsValue -value (GetUriParserFlags) }
+    if (-not $uriUnEscapesDotsAndSlashes) { Set-Variable -Scope Script -name uriUnEscapesDotsAndSlashes -value (($defaultUriParserFlagsValue -band $UnEscapeDotsAndSlashes) -eq $UnEscapeDotsAndSlashes) }
+}
+
 
 # Aliases
 New-Alias -Name grvh -value Get-RabbitMQVirtualHost -Description "Gets RabbitMQ's Virutal Hosts"
