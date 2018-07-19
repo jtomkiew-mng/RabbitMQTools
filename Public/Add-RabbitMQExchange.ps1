@@ -69,7 +69,7 @@ function Add-RabbitMQExchange
 
         # Type of the Exchange to create.
         [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true)]
-        [ValidateSet("topic", "fanout", "direct", "headers")]
+        [ValidateSet("topic", "fanout", "direct", "headers", "x-jms-topic")]
         [string]$Type,
 
         # Determines whether the exchange should be Durable.
