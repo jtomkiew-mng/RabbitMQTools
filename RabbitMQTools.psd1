@@ -72,6 +72,7 @@ FormatsToProcess = @('RabbitMqTools.Format.Ps1xml')
 # Functions to export from this module
 FunctionsToExport = @(
     'Add-RabbitMQExchange',
+    'Add-RabbitMQExchangeBinding',
     'Add-RabbitMQMessage',
     'Add-RabbitMQPermission',
     'Add-RabbitMQQueue',
