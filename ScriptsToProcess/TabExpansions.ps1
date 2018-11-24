@@ -173,103 +173,103 @@ function createCompletionResult([string]$text, [string]$value, [string]$tooltip)
     return New-Object System.Management.Automation.CompletionResult $completionText, $text, 'ParameterValue', $tooltip 
 }
 
-if (-not $global:options) { $global:options = @{CustomArgumentCompleters = @{};NativeArgumentCompleters = @{}}}
+if (-not $global:rabbitMqToolsOptions) { $global:rabbitMqToolsOptions = @{CustomArgumentCompleters = @{};NativeArgumentCompleters = @{}}}
 
-$global:options['CustomArgumentCompleters']['Test1:Name'] = $testCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Test1:Name'] = $testCompletion_Process 
 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQOverview:Name'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQOverview:Name'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQVirtualHost:Name'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQVirtualHost:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQVirtualHost:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQVirtualHost:Name'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQVirtualHost:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQVirtualHost:Name'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQVirtualHost:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQVirtualHost:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQVirtualHost:Name'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQVirtualHost:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQExchange:Name'] = $exchangeCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQExchange:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQExchange:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQExchange:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQExchange:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQExchange:Name'] = $exchangeCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQExchange:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQExchange:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQExchange:Name'] = $exchangeCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQExchange:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQExchange:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQExchange:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQExchange:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQExchange:Name'] = $exchangeCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQExchange:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQExchange:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQConnection:Name'] = $connectionCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQConnection:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQConnection:Name'] = $connectionCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQConnection:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQConnection:Name'] = $connectionCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQConnection:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQConnection:Name'] = $connectionCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQConnection:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQNode:Name'] = $nodeCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQNode:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQNode:Name'] = $nodeCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQNode:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQChannel:Name'] = $channelCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQChannel:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQChannel:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQChannel:Name'] = $channelCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQChannel:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQChannel:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQQueue:Name'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQQueue:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQQueue:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQQueue:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQQueue:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQQueue:Name'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQQueue:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQQueue:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQQueue:Name'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQQueue:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQQueue:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQQueue:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQQueue:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQQueue:Name'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQQueue:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQQueue:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQQueueBinding:Name'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQQueueBinding:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQQueueBinding:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:Name'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:ExchangeName'] = $exchangeCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:RoutingKey'] = $routingKeyGeneration_Process
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:Name'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:ExchangeName'] = $exchangeCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:RoutingKey'] = $routingKeyCompletion_Process
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQQueueBinding:Name'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQQueueBinding:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQQueueBinding:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:Name'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:ExchangeName'] = $exchangeCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQQueueBinding:RoutingKey'] = $routingKeyGeneration_Process
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:Name'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:ExchangeName'] = $exchangeCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQQueueBinding:RoutingKey'] = $routingKeyCompletion_Process
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQMessage:Name'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQMessage:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQMessage:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQMessage:Name'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQMessage:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQMessage:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Clear-RabbitMQQueue:Name'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Clear-RabbitMQQueue:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Clear-RabbitMQQueue:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Clear-RabbitMQQueue:Name'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Clear-RabbitMQQueue:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Clear-RabbitMQQueue:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Copy-RabbitMQMessage:SourceQueueName'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Copy-RabbitMQMessage:DestinationQueueName'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Copy-RabbitMQMessage:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Copy-RabbitMQMessage:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Copy-RabbitMQMessage:SourceQueueName'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Copy-RabbitMQMessage:DestinationQueueName'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Copy-RabbitMQMessage:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Copy-RabbitMQMessage:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Move-RabbitMQMessage:SourceQueueName'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Move-RabbitMQMessage:DestinationQueueName'] = $queueCompletion_Process 
-$global:options['CustomArgumentCompleters']['Move-RabbitMQMessage:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Move-RabbitMQMessage:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Move-RabbitMQMessage:SourceQueueName'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Move-RabbitMQMessage:DestinationQueueName'] = $queueCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Move-RabbitMQMessage:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Move-RabbitMQMessage:BaseUri'] = $BaseUriCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQUser:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQUser:Name'] = $userCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQUser:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQUser:Name'] = $userCompletion_Process 
-$global:options['CustomArgumentCompleters']['Set-RabbitMQUser:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Set-RabbitMQUser:Name'] = $userCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQUser:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQUser:Name'] = $userCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQUser:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQUser:Name'] = $userCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQUser:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQUser:Name'] = $userCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Set-RabbitMQUser:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Set-RabbitMQUser:Name'] = $userCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQUser:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQUser:Name'] = $userCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQPermission:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQPermission:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Get-RabbitMQPermission:User'] = $userCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQPermission:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQPermission:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Add-RabbitMQPermission:User'] = $userCompletion_Process 
-$global:options['CustomArgumentCompleters']['Set-RabbitMQPermission:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Set-RabbitMQPermission:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Set-RabbitMQPermission:User'] = $userCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQPermission:BaseUri'] = $BaseUriCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQPermission:VirtualHost'] = $virtualHostCompletion_Process 
-$global:options['CustomArgumentCompleters']['Remove-RabbitMQPermission:User'] = $userCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQPermission:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQPermission:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Get-RabbitMQPermission:User'] = $userCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQPermission:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQPermission:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Add-RabbitMQPermission:User'] = $userCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Set-RabbitMQPermission:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Set-RabbitMQPermission:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Set-RabbitMQPermission:User'] = $userCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQPermission:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQPermission:VirtualHost'] = $virtualHostCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Remove-RabbitMQPermission:User'] = $userCompletion_Process 
 
-$global:options['CustomArgumentCompleters']['Unregister-RabbitMQServer:BaseUri'] = $BaseUriCompletion_Process 
+$global:rabbitMqToolsOptions['CustomArgumentCompleters']['Unregister-RabbitMQServer:BaseUri'] = $BaseUriCompletion_Process 
 
-$function:tabexpansion2 = $function:tabexpansion2 -replace 'End\r\n{','End { if ($null -ne $options) { $options += $global:options} else {$options = $global:options}'
+$function:tabexpansion2 = $function:tabexpansion2 -replace 'End\r\n{','End { if ($null -ne $options) { $options += $global:rabbitMqToolsOptions} else {$options = $global:rabbitMqToolsOptions}'
