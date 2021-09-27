@@ -30,26 +30,26 @@ if (-not $isPowershellCore) {
 
 
 # Aliases
-New-Alias -Name grvh -value Get-RabbitMQVirtualHost -Description "Gets RabbitMQ's Virutal Hosts"
-New-Alias -Name getvhost -value Get-RabbitMQVirtualHost -Description "Gets RabbitMQ's Virutal Hosts"
-New-Alias -Name arvh -value Add-RabbitMQVirtualHost -Description "Adds RabbitMQ's Virutal Hosts"
-New-Alias -Name addvhost -value Add-RabbitMQVirtualHost -Description "Adds RabbitMQ's Virutal Hosts"
-New-Alias -Name rrvh -value Remove-RabbitMQVirtualHost -Description "Removes RabbitMQ's Virutal Hosts"
-New-Alias -Name delvhost -value Remove-RabbitMQVirtualHost -Description "Removes RabbitMQ's Virutal Hosts"
+Set-Alias -Name grvh -value Get-RabbitMQVirtualHost -Description "Gets RabbitMQ's Virutal Hosts"
+Set-Alias -Name getvhost -value Get-RabbitMQVirtualHost -Description "Gets RabbitMQ's Virutal Hosts"
+Set-Alias -Name arvh -value Add-RabbitMQVirtualHost -Description "Adds RabbitMQ's Virutal Hosts"
+Set-Alias -Name addvhost -value Add-RabbitMQVirtualHost -Description "Adds RabbitMQ's Virutal Hosts"
+Set-Alias -Name rrvh -value Remove-RabbitMQVirtualHost -Description "Removes RabbitMQ's Virutal Hosts"
+Set-Alias -Name delvhost -value Remove-RabbitMQVirtualHost -Description "Removes RabbitMQ's Virutal Hosts"
 
-New-Alias -Name gre -value Get-RabbitMQExchange -Description "Gets RabbitMQ's Exchages"
-New-Alias -Name addexchangebinding -value Add-RabbitMQExchangeBinding -Description "Adds bindings between RabbitMQ exchanges"
+Set-Alias -Name gre -value Get-RabbitMQExchange -Description "Gets RabbitMQ's Exchages"
+Set-Alias -Name addexchangebinding -value Add-RabbitMQExchangeBinding -Description "Adds bindings between RabbitMQ exchanges"
 
-New-Alias -Name grq -value Get-RabbitMQQueue -Description "Gets RabbitMQ's Queues"
-New-Alias -Name getqueue -value Get-RabbitMQQueue -Description "Gets RabbitMQ's Queues"
-New-Alias -Name arq -value Add-RabbitMQQueue -Description "Adds RabbitMQ's Queues"
-New-Alias -Name addqueue -value Add-RabbitMQQueue -Description "Adds RabbitMQ's Queues"
-New-Alias -Name rrq -value Remove-RabbitMQQueue -Description "Removes RabbitMQ's Queues"
-New-Alias -Name delqueue -value Remove-RabbitMQQueue -Description "Removes RabbitMQ's Queues"
-New-Alias -Name getqueuebinding -value Get-RabbitMQQueueBinding -Description "Gets bindings for RabbitMQ Queues"
-New-Alias -Name addqueuebinding -value Add-RabbitMQQueueBinding -Description "Adds bindings between RabbitMQ exchange and queue"
+Set-Alias -Name grq -value Get-RabbitMQQueue -Description "Gets RabbitMQ's Queues"
+Set-Alias -Name getqueue -value Get-RabbitMQQueue -Description "Gets RabbitMQ's Queues"
+Set-Alias -Name arq -value Add-RabbitMQQueue -Description "Adds RabbitMQ's Queues"
+Set-Alias -Name addqueue -value Add-RabbitMQQueue -Description "Adds RabbitMQ's Queues"
+Set-Alias -Name rrq -value Remove-RabbitMQQueue -Description "Removes RabbitMQ's Queues"
+Set-Alias -Name delqueue -value Remove-RabbitMQQueue -Description "Removes RabbitMQ's Queues"
+Set-Alias -Name getqueuebinding -value Get-RabbitMQQueueBinding -Description "Gets bindings for RabbitMQ Queues"
+Set-Alias -Name addqueuebinding -value Add-RabbitMQQueueBinding -Description "Adds bindings between RabbitMQ exchange and queue"
 
-New-Alias -Name getmessage -value Get-RabbitMQMessage -Description "Gets messages from RabbitMQ queue"
+Set-Alias -Name getmessage -value Get-RabbitMQMessage -Description "Gets messages from RabbitMQ queue"
 
 # Modules
 #Export-ModuleMember -Function $($Public | Select -ExpandProperty BaseName) -Alias *
