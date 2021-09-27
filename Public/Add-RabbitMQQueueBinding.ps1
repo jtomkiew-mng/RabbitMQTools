@@ -61,24 +61,24 @@ function Add-RabbitMQQueueBinding
         # Routing key.
         [parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=3, ParameterSetName='RoutingKey')]
         [Alias("rk", "routing_key")]
-        [string]$RoutingKey,
+        [string]$RoutingKey = [NullString]::Value,
 
         # Headers hashtable
         [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=3, ParameterSetName='Headers')]
-        [Hashtable]$Headers = @{},
+        [Hashtable]$Headers,
 
         # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true, Position=4)]
         [Alias("HostName", "hn", "cn")]
         [string]$BaseUri = $defaultComputerName,
-        
-  		# Switch to unescape web characters (For x-jms-topic).
+
+        # Switch to unescape web characters (For x-jms-topic).
         [parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=5)]
         [switch]$DontEscape,
 
         # Credentials to use when logging to RabbitMQ server.
         [Parameter(Mandatory=$false)]
-        [PSCredential]$Credentials = $defaultCredentials 
+        [PSCredential]$Credentials = $defaultCredentials
     )
 
     Begin
@@ -94,20 +94,28 @@ function Add-RabbitMQQueueBinding
                 $url = Join-Parts $BaseUri "/api/bindings/$([System.Web.HttpUtility]::UrlEncode($VirtualHost))/e/$([System.Web.HttpUtility]::UrlEncode($ExchangeName))/q/$([System.Web.HttpUtility]::UrlEncode($Name))"
                 Write-Verbose "Invoking REST API: $url"
 
-                $body = @{
-                    "routing_key" = $RoutingKey
-		            "arguments" = $headers
+                $body = @{}
+
+                if ($null -ne $RoutingKey)
+                {
+                    $body."routing_key" = $RoutingKey
+                }
+
+                if ($null -ne $Headers)
+                {
+                    $body."arguments" = $Headers
                 }
 
                 # Unescape after converting to JSON (for x-jms-topic type)
-				if ($DontEscape)
-				{
-					$bodyJson = $body | ConvertTo-Json -Depth 3 -Compress | % { [System.Text.RegularExpressions.Regex]::Unescape($_) }
-				}
-				else
-				{
-					$bodyJson = $body | ConvertTo-Json -Depth 3 -Compress
-				}
+                if ($DontEscape)
+                {
+                    $bodyJson = $body | ConvertTo-Json -Depth 3 -Compress | % { [System.Text.RegularExpressions.Regex]::Unescape($_) }
+                }
+                else
+                {
+                    $bodyJson = $body | ConvertTo-Json -Depth 3 -Compress
+                }
+
                 $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Post -ContentType "application/json" -Body $bodyJson
 
                 Write-Verbose "Bound exchange $ExchangeName to queue $Name $n on $BaseUri/$VirtualHost"
