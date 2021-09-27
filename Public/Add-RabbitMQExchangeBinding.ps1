@@ -108,7 +108,7 @@ function Add-RabbitMQExchangeBinding
 				{
 					$bodyJson = $body | ConvertTo-Json -Depth 3 -Compress
 				}
-				$result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Post -ContentType "application/json" -Body $bodyJson
+				$result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodDisableKeepAlive -ErrorAction Continue -Method Post -ContentType "application/json" -Body $bodyJson
 
                 Write-Verbose "Bound exchange $ExchangeName to exchange $Name $n on $BaseUri/$VirtualHost"
                 $cnt++

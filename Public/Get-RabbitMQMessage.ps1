@@ -128,7 +128,7 @@ function Get-RabbitMQMessage
 
             Write-Debug "body: $bodyJson"
 
-            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Post -ContentType "application/json" -Body $bodyJson
+            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodDisableKeepAlive -ErrorAction Continue -Method Post -ContentType "application/json" -Body $bodyJson
 
             $result | Add-Member -NotePropertyName "QueueName" -NotePropertyValue $Name
 

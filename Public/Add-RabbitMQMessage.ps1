@@ -29,7 +29,7 @@
 .INPUTS
 
 .OUTPUTS
-   By default, the cmdlet returns list of RabbitMQ.QueueMessage objects which describe connections. 
+   By default, the cmdlet returns list of RabbitMQ.QueueMessage objects which describe connections.
 
 .LINK
     https://www.rabbitmq.com/management.html - information about RabbitMQ management plugin.
@@ -53,7 +53,7 @@ function Add-RabbitMQMessage
         [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=2)]
         [Alias("rk")]
         [string]$RoutingKey,
-        
+
         # Massage's payload
         [parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=3)]
         [string]$Payload,
@@ -62,7 +62,7 @@ function Add-RabbitMQMessage
         [parameter(ValueFromPipelineByPropertyName=$true, Position=4)]
         $Properties,
 
-        # Name of the computer hosting RabbitMQ server. Defalut value is localhost.
+        # Name of the computer hosting RabbitMQ server. Default value is localhost.
         [parameter(ValueFromPipelineByPropertyName=$true)]
         [Alias("HostName", "hn", "cn")]
         [string]$BaseUri = $defaultComputerName,
@@ -74,7 +74,7 @@ function Add-RabbitMQMessage
 
     Begin
     {
-        if ($Properties -eq $null) { $Properties = @{} }
+        if ($null -eq $Properties) { $Properties = @{} } # TODO: being from pipeline this should not be in begin block
     }
     Process
     {
@@ -84,20 +84,19 @@ function Add-RabbitMQMessage
             Write-Verbose "Invoking REST API: $url"
 
             $body = @{
-                routing_key = $RoutingKey
+                routing_key      = $RoutingKey
                 payload_encoding = "string"
-                payload = $Payload
-                properties = $Properties
+                payload          = $Payload
+                properties       = $Properties
             }
 
             $bodyJson = $body | ConvertTo-Json
 
-            
             $retryCounter = 0
 
             while ($retryCounter -lt 3)
             {
-                $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Post -ContentType "application/json" -Body $bodyJson
+                $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodDisableKeepAlive -ErrorAction Continue -Method Post -ContentType "application/json" -Body $bodyJson
 
                 if ($result.routed -ne $true)
                 {

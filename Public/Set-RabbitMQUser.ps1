@@ -73,7 +73,7 @@ function Set-RabbitMQUser
             if ($NewPassword) { $body.Add("password", $NewPassword) }
             if ($Tag) { $body.Add("tags", $Tag -join ',') } else { $body.Add("tags", $user.tags) }
             $bodyJson = $body | ConvertTo-Json
-            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Put -ContentType "application/json" -Body $bodyJson
+            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodDisableKeepAlive -ErrorAction Continue -Method Put -ContentType "application/json" -Body $bodyJson
 
             Write-Verbose "Update user $User"
             $cnt++

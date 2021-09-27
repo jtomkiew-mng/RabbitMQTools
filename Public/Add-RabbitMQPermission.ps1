@@ -80,7 +80,7 @@ function Add-RabbitMQPermission
                 'read' = $Read
                 'write' = $Write                
             } | ConvertTo-Json
-            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodKeepAlive -ErrorAction Continue -Method Put -ContentType "application/json" -Body $body
+            $result = Invoke-RestMethod $url -Credential $Credentials -AllowEscapedDotsAndSlashes -DisableKeepAlive:$InvokeRestMethodDisableKeepAlive -ErrorAction Continue -Method Put -ContentType "application/json" -Body $body
 
             Write-Verbose "Created permission to $VirtualHost for $User : $Configure, $Read, $Write"
             $cnt++

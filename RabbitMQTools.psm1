@@ -1,28 +1,25 @@
 #Set Module Variables
-$InvokeRestMethodKeepAlive = $True
+$InvokeRestMethodDisableKeepAlive = $true
 
 #Capture PSEdition
 $isPowershellCore = $false
 If ($PSVersiontable.PSEdition -eq 'core') {
     $isPowershellCore = $true
-} 
+}
 
 #Get public and private function definition files.
-    $Public  = Get-ChildItem $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue 
-    $Private = Get-ChildItem $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue 
+$Public = Get-ChildItem $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue
+$Private = Get-ChildItem $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue
 
 #Dot source the files
-    Foreach($import in @($Public + $Private))
-    {
-        Try
-        {
-            . $import.fullname
-        }
-        Catch
-        {
-            Write-Error "Failed to import function $($import.fullname)"
-        }
+Foreach ($import in @($Public + $Private)) {
+    Try {
+        . $import.fullname
     }
+    Catch {
+        Write-Error "Failed to import function $($import.fullname)"
+    }
+}
 
 # Uri parser variables
 if (-not $isPowershellCore) {
